@@ -42,8 +42,6 @@ create groups and events like co-curricular, reunion, seminars.
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 - Nodejs
 - EJS
 - Bootstrap
@@ -111,13 +109,11 @@ Make sure you have node and oracle installed in your device.
 
 4. Find file dump.sql in `sql/SQL_DUMP.sql`
 
-5. Head over to your favourite database GUI and connect squirrel with that
+5. Head over to your favourite database GUI and connect AlumNET with that
 
 6. Import data from sql file depending upon the GUI. 
 
-7. The DUMP should work i hope
-
-8. If no errors are shown we are good to go!
+7. If no errors are shown, then we are good to go!
 
 
 

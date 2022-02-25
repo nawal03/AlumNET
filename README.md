@@ -105,15 +105,15 @@ Make sure you have node and oracle installed in your device.
    grant dba to c##alumnet;
    ```
 
-   
-
 4. Find file dump.sql in `sql/SQL_DUMP.sql`
 
-5. Head over to your favourite database GUI and connect AlumNET with that
+5. Replace all "TFUSER4" with your username in `sql/SQL_DUMP.sql`
 
-6. Import data from sql file depending upon the GUI. 
+6. Head over to your favourite database GUI and connect AlumNET with that
 
-7. If no errors are shown, then we are good to go!
+7. Import data from sql file depending upon the GUI. 
+
+8. If no errors are shown, then we are good to go!
 
 
 

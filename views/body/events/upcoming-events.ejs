@@ -1,0 +1,209 @@
+<style>
+    .card-text a{
+        color: black; 
+        text-decoration: none;
+    }
+    .card-text a:hover{
+        text-decoration: underline;
+    }
+    #map {
+        margin-left: 50px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 300px;
+    }
+    img{
+        height: 250px;
+        width: 400;
+        margin-top: 10px;
+    }
+    legend{
+        text-align: center; 
+        margin-bottom: 20px;
+        font-size: 32px; 
+        font-weight: bold; 
+        color: brown;
+    }
+    .search_btn{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    margin-bottom: 5px;
+    
+    }
+    .search_btn:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .group-name {
+        color: black;
+        text-decoration: none;
+    }
+
+    .group-name:hover {
+        text-decoration: none;
+    }
+
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="row">
+        <h2
+            style="margin-left: 150px; margin-bottom: 30px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+            <%= title%>
+        </h2>
+        <div class="col-md-12">
+            <div class="row">
+                <div id="content" class="content col-8">
+                    <%if (events.length===0) {%>
+                        <h5 style="margin-left: 180px; color: gray; font-style: italic;">No events to show...</h3>
+                    <% }%>
+                    <% for (event of events) { %>
+                    <div class="card" style="width: 100%; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; box-shadow: 3px 3px rgb(226, 226, 226);">
+                        <img src="<%- event.COVER_PHOTO%>" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <% if (!(event_type==='my_going' || event_type==='my_managed' )) {%>
+                            <a href="/api/<%- event_type%>/<%- event.EVENT_ID%>" class="group-name">
+                                <h5 class="card-title">
+                                    <%= event.EVENT_NAME%>
+                                </h5>
+                            </a>
+                            <% } else {%>
+                                <a href="/api/<%- event.EVENT_TYPE%>/<%- event.EVENT_ID%>" class="group-name">
+                                    <h5 class="card-title">
+                                        <%= event.EVENT_NAME%>
+                                    </h5>
+                                </a>
+                            <% }%>
+                            <p class="card-text">
+                                <%= event.DESCRIPTION%>
+                            </p>
+                            <p class="card-text">
+                                Organized By: <a href="/api/group/<%- event.GROUP_ID%>"><%= event.GROUP_NAME%></a>
+                            </p><span class="text-muted">Event Date: <%= event.EVENT_DATE %></span>
+                            <br />
+                         
+                            <% if (!(event_type === 'my_going' || event_type === 'my_managed')) {%>
+                            <span class="text-muted">Going: <%= event.GOING_COUNT %></span><br/>
+                         
+                            <% }%>
+                            <% if (event.IS_GOING==='NO' ) {%>
+                                <div class="d-flex justify-content-end">
+                                    <form method="post" action="/api/event/going/<%- event.EVENT_ID %>">
+                                        <input type="text" name="event_type" value="<%- event_type %>" hidden>
+                                        <button type="submit" class="btn btn-primary mb-2"style="margin-right: 5px;">Going</button>
+                                    </form>
+                                    <%if (event_type === 'my_going' || event_type === 'my_managed') {%>
+                                    <a href="/api/<%- event.EVENT_TYPE%>/<%- event.EVENT_ID %>" class="btn btn-primary mb-2">See Details</a>
+                                    <% } else {%>
+                                    <a href="/api/<%- event_type%>/<%- event.EVENT_ID %>" class="btn btn-primary mb-2">See Details</a>
+                                    <% }%>
+                                </div>
+                            <% } else {%>
+                                <span class="text-muted">You're going to this event!</span>
+                                <br />
+                            </br>
+                                <div class="d-flex justify-content-end">
+                                    <form method="post" action="/api/event/remove_going/<%- event.EVENT_ID %>">
+                                        <input type="text" name="event_type" value="<%- event_type %>" hidden>
+                                        <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Cancel Going</button>
+                                    </form>
+                                    <%if (event_type==='my_going' || event_type==='my_managed' ) {%>
+                                    <a href="/api/<%- event.EVENT_TYPE%>/<%- event.EVENT_ID %>" class="btn btn-primary mb-2">See Details</a>
+                                    <% } else {%>
+                                    <a href="/api/<%- event_type%>/<%- event.EVENT_ID %>" class="btn btn-primary mb-2">See Details</a>
+                                    <% }%>
+                                </div>
+                            <% }%>
+                        </div>
+                    </div>
+                    <%}%>
+                </div>
+                <% if (!(event_type==='my_going' || event_type==='my_managed' )) {%>
+                <div class="content col-3 text-right" style="margin-left: 40px;">
+                    <button type="button" class="btn btn-primary mb-2" style="width: 200px;" data-bs-toggle="modal" data-bs-target="#searchEventModal">
+                        Search Events <i class="fas fa-search"></i></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="searchEventModal" tabindex="-1" role="dialog" aria-labelledby="searchEventModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="searchEventModalLabel">Search for Event</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/api/<%- event_type%>/search" method="get">
+                                            <div class="form-group-row" style="margin-bottom: 12px; margin-left: 35px">
+                                                    <input type="text" class="form-control" placeholder="Enter Search String" name="str"
+                                                        style="width: 80%; margin-left: 20px;">
+                                            </div>
+                                            <div class="form-group-row" style="margin-bottom: 10px;" style="padding-left: 40px;">
+                                                <div class="col-4">
+                                                    <input type="text" placeholder="Enter search latitude" name="latitude" id="search-latitude"
+                                                        hidden>
+                                                    <input type="text" placeholder="Enter search longitude" name="longitude"
+                                                        id="search-longitude" hidden>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="map"></div>
+                                            </div>
+                                            <div class="row" style="padding-left: 150px; padding-bottom: 20px;">
+                                                <button type="submit" class="btn btn-primary search_btn" style="width: 200px;">Search</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div class="dropdown">
+                        <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 200px;">
+                            Sort By
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/api/<%- event_type%>/popular">Popular Events</a>
+                            <a class="dropdown-item" href="/api/<%- event_type%>/suggested">Suggested Events</a>
+                        </div>
+                    </div>
+                </div>
+                <% }%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Get element references
+    var confirmBtn = document.getElementById('confirmPosition');
+    var onClickPositionView = document.getElementById('onClickPositionView');
+    var onIdlePositionView = document.getElementById('onIdlePositionView');
+    var latitude = document.getElementById('search-latitude');
+    var longitude = document.getElementById('search-longitude');
+
+    // Initialize locationPicker plugin
+    var lp = new locationPicker('map', {
+        setCurrentPosition: true, // You can omit this, defaults to true
+    }, {
+        zoom: 15 // You can set any google map options here, zoom defaults to 15
+    });
+
+    // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+    google.maps.event.addListener(lp.map, 'idle', function (event) {
+        // Get current location and show it in HTML
+        var location = lp.getMarkerPosition();
+        latitude.value = location.lat;
+        longitude.value = location.lng;
+    });
+
+</script>

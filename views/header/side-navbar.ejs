@@ -1,0 +1,106 @@
+<style>
+    .sidebar{
+        color: #940031;
+        background-color: white;
+        width: 300px;
+        margin-left: 20px;
+        margin-top: 20px;
+        box-shadow: 3px 5px rgb(204, 204, 204);
+    }
+    .sidebar ul{
+        padding-left: 20px;
+    }
+    .sidebar li .submenu{ 
+	list-style: none; 
+	margin: 0; 
+	padding-left: 30px; 
+	padding-right: 1rem;
+}
+</style>
+<nav class="sidebar card py-2 mb-4">
+<ul class="nav flex-column" id="nav_accordion">
+    <li class="nav-item has-submenu">
+        <a class="nav-link dropdown-toggle">BLOGS</a>
+        <ul class="submenu collapse">
+            <li><a class="nav-link" href="/api/blog/all">All Blogs</a></li>
+            <li><a class="nav-link" href="/api/blog">My Blogs</a></li>
+        </ul>
+    </li>
+    <li class="nav-item has-submenu">
+        <a class="nav-link dropdown-toggle">
+            JOB POSTS
+        </a>
+        <ul class="submenu collapse">
+            <li><a class="nav-link" href="/api/job_post/all">All Job Posts</a></li>
+            <li><a class="nav-link" href="/api/job_post">My Job Posts</a></li>
+        </ul>
+    </li>
+    <li class="nav-item has-submenu">
+        <a class="nav-link dropdown-toggle">
+            MERCHANDISE
+        </a>
+        <ul class="submenu collapse">
+            <li><a class="nav-link" href="/api/merch/all">All Merchandise</a></li>
+            <li><a class="nav-link" href="/api/merch">My Merchandise</a></li>
+        </ul>
+    </li>
+    <li class="nav-item has-submenu">
+        <a class="nav-link dropdown-toggle">
+            GROUPS
+        </a>
+        <ul class="submenu collapse">
+            <li><a class="nav-link" href="/api/group/all">All Groups</a></li>
+            <li><a class="nav-link" href="/api/group/suggested">Suggested Groups</a></li>
+            <li><a class="nav-link" href="/api/group/group_member">My Groups</a></li>
+            <li><a class="nav-link" href="/api/group/admin">My Managed Groups</a></li>
+            <li><a class="nav-link" href="/api/group/pending_member">My Pending Groups</a></li>
+        </ul>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle">
+            EVENTS
+        </a>
+        <ul class="submenu collapse">
+            <li><a class="nav-link" href="/api/co_curricular/upcoming">Co-curricular Events</a></li>
+            <li><a class="nav-link" href="/api/reunion/upcoming">Reunions</a></li>
+            <li><a class="nav-link" href="/api/seminar/upcoming">Seminars</a></li>
+            <li><a class="nav-link" href="/api/event/going">My Going Events</a></li>
+            <li><a class="nav-link" href="/api/event/managed">My Managed Events</a></li>
+            <li><a class="nav-link"href="/api/event/past">Past Events</a></li>
+        </ul>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/api/user/search"> SEARCH USERS </a>
+    </li>
+</ul>
+</nav>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
+
+                element.addEventListener('click', function (e) {
+
+                    let nextEl = element.nextElementSibling;
+                    let parentEl = element.parentElement;
+
+                    if (nextEl) {
+                        e.preventDefault();
+                        let mycollapse = new bootstrap.Collapse(nextEl);
+
+                        if (nextEl.classList.contains('show')) {
+                            mycollapse.hide();
+                        } else {
+                            mycollapse.show();
+                            // find other submenus with class=show
+                            var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                            // if it exists, then close all of them
+                            if (opened_submenu) {
+                                new bootstrap.Collapse(opened_submenu);
+                            }
+                        }
+                    }
+                }); // addEventListener
+            }) // forEach
+        }); 
+</script>

@@ -1,0 +1,617 @@
+<style>
+    legend {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+        color: brown;
+    }
+
+    .search_btn {
+        color: rgb(255, 255, 255);
+        background-color: #940031;
+        margin-right: 5px;
+    }
+
+    .search_btn:hover {
+        color: #940031;
+        background-color: white;
+    }
+
+    .btn-primary {
+        color: rgb(255, 255, 255);
+        background-color: #940031;
+
+    }
+
+    .btn-primary:hover {
+        color: #940031;
+        background-color: white;
+    }
+
+    input:focus {
+        outline: 0 0 0 0 !important;
+        box-shadow: 0 0 0 0 !important;
+    }
+
+    select:focus {
+        outline: 0 0 0 0 !important;
+        box-shadow: 0 0 0 0 !important;
+    }
+
+    .username {
+        text-decoration: none;
+    }
+
+    .username:hover {
+        text-decoration: underline black;
+    }
+
+    .timeline {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: relative
+    }
+
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        bottom: 5px;
+        width: 5px;
+        background: #2d353c;
+        left: 20%;
+        margin-left: -2.5px
+    }
+
+    .timeline>li {
+        position: relative;
+        min-height: 50px;
+        padding: 20px 0
+    }
+
+    .timeline .timeline-time {
+        position: absolute;
+        left: 0;
+        width: 18%;
+        text-align: right;
+        top: 30px
+    }
+
+    .timeline .timeline-time .date,
+    .timeline .timeline-time .time {
+        display: block;
+        font-weight: 600
+    }
+
+    .timeline .timeline-time .date {
+        line-height: 16px;
+        font-size: 12px
+    }
+
+    .timeline .timeline-time .time {
+        line-height: 24px;
+        font-size: 20px;
+        color: #242a30
+    }
+
+    .timeline .timeline-icon {
+        left: 15%;
+        position: absolute;
+        width: 10%;
+        text-align: center;
+        top: 40px
+    }
+
+    .timeline .timeline-icon a {
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        background: #d9e0e7;
+        line-height: 10px;
+        color: #fff;
+        font-size: 14px;
+        border: 5px solid #2d353c;
+        transition: border-color .2s linear
+    }
+
+    .timeline .timeline-body {
+        margin-left: 23%;
+        margin-right: 17%;
+        background: #fff;
+        position: relative;
+        padding: 20px 25px;
+        border-radius: 6px
+    }
+
+    .timeline .timeline-body:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 10px solid transparent;
+        border-right-color: #fff;
+        left: -20px;
+        top: 20px
+    }
+
+    .timeline .timeline-body>div+div {
+        margin-top: 15px
+    }
+
+    .timeline .timeline-body>div+div:last-child {
+        margin-bottom: -20px;
+        padding-bottom: 20px;
+        border-radius: 0 0 6px 6px
+    }
+
+    .timeline-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e7eb;
+        line-height: 30px
+    }
+
+    .timeline-header .userimage {
+        float: left;
+        width: 34px;
+        height: 34px;
+        border-radius: 40px;
+        overflow: hidden;
+        margin: -2px 10px -2px 0
+    }
+
+    .timeline-header .username {
+        font-size: 16px;
+        font-weight: 600
+    }
+
+    .timeline-header .username,
+    .timeline-header .username a {
+        color: #2d353c
+    }
+
+    .timeline img {
+        max-width: 100%;
+        display: block
+    }
+
+    .timeline-content {
+        letter-spacing: .25px;
+        line-height: 18px;
+        font-size: 13px
+    }
+
+    .timeline-content:after,
+    .timeline-content:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .timeline-title {
+        margin-top: 0
+    }
+
+    .timeline-footer {
+        background: #fff;
+        border-top: 1px solid #e2e7ec;
+        padding-top: 15px
+    }
+
+    .timeline-footer a:not(.btn) {
+        color: #575d63
+    }
+
+    .timeline-footer a:not(.btn):focus,
+    .timeline-footer a:not(.btn):hover {
+        color: #2d353c
+    }
+
+    .timeline-likes {
+        color: #6d767f;
+        font-weight: 600;
+        font-size: 12px
+    }
+
+    .timeline-likes .stats-right {
+        float: right
+    }
+
+    .timeline-likes .stats-total {
+        display: inline-block;
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-icon {
+        float: left;
+        margin-right: 5px;
+        font-size: 9px
+    }
+
+    .timeline-likes .stats-icon+.stats-icon {
+        margin-left: -2px
+    }
+
+    .timeline-likes .stats-text {
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-text+.stats-text {
+        margin-left: 15px
+    }
+
+    .timeline-comment-box {
+        background: #f2f3f4;
+        margin-left: -25px;
+        margin-right: -25px;
+        padding: 20px 25px
+    }
+
+    .timeline-comment-box .user {
+        float: left;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        border-radius: 30px
+    }
+
+    .timeline-comment-box .user img {
+        max-width: 100%;
+        max-height: 100%
+    }
+
+    .timeline-comment-box .user+.input {
+        margin-left: 44px
+    }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="row">
+    <div class="d-flex justify-content-end">
+        <form action="/api/blog/search">
+            <input type="text" placeholder="Search.." name="search" style="width: 175px; height: 35px;">
+            <button type="submit" class="btn btn-primary search_btn"><i class="fas fa-search" style="height: fit-content;"></i></button>
+        </form>
+        <button type="button" style="width:220px;" class="btn btn-primary mb-2" data-bs-toggle="modal"
+            data-bs-target="#addGroupPostModal">
+            Add New Post
+        </button>
+    </div>
+</div>
+<div class="row">
+    <h2
+        style="margin-left: 250px; margin-bottom: 30px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+        Group Posts
+    </h2>
+</div>
+<div class="row">
+    <div class="tab-pane fade active show" id="group-posts">
+    </div>
+</div>
+
+    <!-- add Post Modal -->
+<div class="modal fade" id="addGroupPostModal" tabindex="-1" role="dialog"
+    aria-labelledby="addGroupPostModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGroupPostModalLabel">Add New Post</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/api/group_post/<%- group.GROUP_ID%>">
+                    <div class="form-group row">
+                        <label for="topic" class="form-label">Topic</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="topic" name="topic" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description"
+                                required></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let group = <%- JSON.stringify(group)%>;
+    let cur_user_id = <%- cur_user_id%>;
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: `/api/group_post/all/${group.GROUP_ID}`,
+            success: function (result) {
+                if (result.length > 0) {
+                    $.map(result, function (data, i) {
+                        let time = data.TIMESTAMP.split(".");
+                        let like = "unlike";
+                        let color = "rgb(26, 26, 224)";
+                        if (data.IS_LIKED === 'NO') {
+                            like = "like";
+                            color = "rgb(95, 95, 95)";
+                        }
+
+                        if (cur_user_id === data.USER_ID) {
+                            $(`#group-posts`).append(
+                                `<ul class="timeline">
+                                <li>
+                                    <!-- begin timeline-time -->
+                                    <div class="timeline-time">
+                                        <span class="date">
+                                            ${time[0]}
+                                        </span>
+                                    </div>
+                                    <!-- end timeline-time -->
+                                    <!-- begin timeline-icon -->
+                                    <div class="timeline-icon">
+                                        <a href="javascript:;">&nbsp;</a>
+                                    </div>
+                                    <!-- end timeline-icon -->
+                                    <!-- begin timeline-body -->
+                                    <div class="timeline-body">
+                                        <div class="timeline-header">
+                                            <a href="/api/user/${data.USER_ID}" class="username"><span class="username">
+                                                    ${data.USER_NAME}
+                                                </span></a>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h5 class="template-title">
+                                                <a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}" style="color: #252a30; text-decoration:none;">
+                                                    ${data.TOPIC}
+                                                </a>
+                                            </h5>
+                                            <p style="white-space: pre-line; font-size: 16px;">
+                                                ${data.DESCRIPTION}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex justify-content-start">
+                                            <!-- Button trigger modal -->
+                                            <button style="margin-right: 5px;" type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                                data-bs-target="#editPostModal${data.POST_ID}">
+                                                <i class="fas fa-pen"></i></button>
+                                            <form method="post" action="/api/group_post/delete/${data.POST_ID}">
+                                                <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                <button type="submit" class="btn btn-primary mb-2"
+                                                    onclick="return confirm('Are you sure you want to delete this blog?');"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                        <!-- Modal -->
+                                    <div class="modal fade" id="editPostModal${data.POST_ID}" tabindex="-1" role="dialog" aria-labelledby="editPostModalLabel${data.POST_ID}"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editPostModalLabel${data.POST_ID}">Edit Post</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" action="/api/group_post/update/${data.POST_ID}">
+                                                        <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                        <div class="form-group row">
+                                                            <label for="topic" class="form-label">Topic</label>
+                                                            <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="topic" name="topic" required value="${data.TOPIC}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label for="description" class="form-label">Description</label>
+                                                            <div class="col-sm-10">
+                                                                <textarea class="form-control" id="description" name="description" required>${data.DESCRIPTION}</textarea>
+                                                            </div>
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary mb-2">Update Post</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <div class="d-flex justify-content">`
+                                        +
+                                            `<form id="${like}${data.POST_ID}"
+                                                action="/api/post/${like}/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                               
+                                                <input type="text" name="group_id" value="${group.GROUP_ID}" hidden>
+                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                                    onclick="document.getElementById('${like}${data.POST_ID}').submit();"><i
+                                                        class="fa fa-thumbs-up fa-fw fa-lg m-r-3" style="color: ${color};"></i>
+                                                    Like </a>
+                                                ${data.LIKE_COUNT}
+                                            </form>`
+                                            +
+                                            `<a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}"
+                                                class="m-r-15 text-inverse-lighter"><i
+                                                    class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+                                                Comment </a>
+                                            ${data.COMMENT_COUNT}
+                                        </div>
+                                    </div>
+                                    <div class="timeline-comment-box">
+                                        <div class="input">
+                                            <form action="/api/post/comment/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                                <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control rounded-corner" name="body" placeholder="Write a comment...">
+                                                    <span class="input-group-btn p-l-10">
+                                                        <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                        </ul>`
+                            )
+                        }
+                        else if (cur_user_id === group.ADMIN_ID) {
+                            $(`#group-posts`).append(
+                                `<ul class="timeline">
+                                <li>
+                                    <!-- begin timeline-time -->
+                                    <div class="timeline-time">
+                                        <span class="date">
+                                            ${time[0]}
+                                        </span>
+                                    </div>
+                                    <!-- end timeline-time -->
+                                    <!-- begin timeline-icon -->
+                                    <div class="timeline-icon">
+                                        <a href="javascript:;">&nbsp;</a>
+                                    </div>
+                                    <!-- end timeline-icon -->
+                                    <!-- begin timeline-body -->
+                                    <div class="timeline-body">
+                                        <div class="timeline-header">
+                                            <a href="/api/user/${data.USER_ID}" class="username"><span class="username">
+                                                    ${data.USER_NAME}
+                                                </span></a>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h5 class="template-title">
+                                                <a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}" style="color: #252a30; text-decoration:none;">
+                                                    ${data.TOPIC}
+                                                </a>
+                                            </h5>
+                                            <p style="white-space: pre-line; font-size: 16px;">
+                                                ${data.DESCRIPTION}
+                                            </p>
+                                        </div>
+                                        <div class="d-flex justify-content-start">
+                                            <form method="post" action="/api/group_post/delete/${data.POST_ID}">
+                                                <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                <button type="submit" class="btn btn-primary mb-2"
+                                                    onclick="return confirm('Are you sure you want to delete this blog?');"><i class="fas fa-trash"></i></button>
+                                            </form>
+                                        </div>
+                                        <div class="timeline-footer">
+                                        <div class="d-flex justify-content">`
+                                +
+                                `<form id="${like}${data.POST_ID}"
+                                                action="/api/post/${like}/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                               
+                                                <input type="text" name="group_id" value="${group.GROUP_ID}" hidden>
+                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                                    onclick="document.getElementById('${like}${data.POST_ID}').submit();"><i
+                                                        class="fa fa-thumbs-up fa-fw fa-lg m-r-3" style="color: ${color};"></i>
+                                                    Like </a>
+                                                ${data.LIKE_COUNT}
+                                            </form>`
+                                +
+                                `<a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}"
+                                                class="m-r-15 text-inverse-lighter"><i
+                                                    class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+                                                Comment </a>
+                                            ${data.COMMENT_COUNT}
+                                        </div>
+                                    </div>
+                                        <div class="timeline-comment-box">
+                                        <div class="input">
+                                            <form action="/api/post/comment/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                                <div class="input-group">
+                                                    <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                    <input type="text" class="form-control rounded-corner" name="body" placeholder="Write a comment...">
+                                                    <span class="input-group-btn p-l-10">
+                                                        <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                        </ul>`
+                            )
+                        }
+                        else {
+                            $(`#group-posts`).append(
+                                `<ul class="timeline">
+                                <li>
+                                    <!-- begin timeline-time -->
+                                    <div class="timeline-time">
+                                        <span class="date">
+                                            ${time[0]}
+                                        </span>
+                                    </div>
+                                    <!-- end timeline-time -->
+                                    <!-- begin timeline-icon -->
+                                    <div class="timeline-icon">
+                                        <a href="javascript:;">&nbsp;</a>
+                                    </div>
+                                    <!-- end timeline-icon -->
+                                    <!-- begin timeline-body -->
+                                    <div class="timeline-body">
+                                        <div class="timeline-header">
+                                            <a href="/api/user/${data.USER_ID}" class="username"><span class="username">
+                                                    ${data.USER_NAME}
+                                                </span></a>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h5 class="template-title">
+                                                <a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}" style="color: #252a30; text-decoration:none;">
+                                                    ${data.TOPIC}
+                                                </a>
+                                            </h5>
+                                            <p style="white-space: pre-line; font-size: 16px;">
+                                                ${data.DESCRIPTION}
+                                            </p>
+                                        </div>
+                                        <div class="timeline-footer">
+                                        <div class="d-flex justify-content">`
+                                +
+                                `<form id="${like}${data.POST_ID}"
+                                                action="/api/post/${like}/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                               
+                                                <input type="text" name="group_id" value="${group.GROUP_ID}" hidden>
+                                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                                    onclick="document.getElementById('${like}${data.POST_ID}').submit();"><i
+                                                        class="fa fa-thumbs-up fa-fw fa-lg m-r-3" style="color: ${color};"></i>
+                                                    Like </a>
+                                                ${data.LIKE_COUNT}
+                                            </form>`
+                                +
+                                `<a href="/api/group_post/${group.GROUP_ID}/${data.POST_ID}"
+                                                class="m-r-15 text-inverse-lighter"><i
+                                                    class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+                                                Comment </a>
+                                            ${data.COMMENT_COUNT}
+                                        </div>
+                                    </div>
+                                        <div class="timeline-comment-box">
+                                        <div class="input">
+                                            <form action="/api/post/comment/${data.POST_ID}" method="post">
+                                                <input name="type" value="group_post" hidden>
+                                                <input name="group_id" value=${group.GROUP_ID} hidden>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control rounded-corner" name="body" placeholder="Write a comment...">
+                                                    <span class="input-group-btn p-l-10">
+                                                        <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                        </ul>`
+                            )
+                        }
+                    }) 
+                }
+                else {
+                    $(`#group-posts`).append(`<h5 style="margin-left: 250px; color: gray; font-style: italic;">No one has posted anything yet...</h3>`)
+                }
+            }
+        })
+    });
+</script>
+

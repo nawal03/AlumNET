@@ -1,0 +1,373 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+    p {
+        text-align: justify;
+        font-size: 20px;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:disabled{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .card small{
+        color: gray;
+    }
+</style>
+<section style="background-color: #eee;">
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body text-center">
+    <% if (cur_user_id===job_post.USER_ID) { %>
+        <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mb-2" style="margin-right: 5px;" data-bs-toggle="modal"
+                data-bs-target="#editJobPostModal">
+                <i class="fas fa-pen"></i></button>
+
+            <form method="post" action="/api/job_post/delete/<%- job_post.POST_ID %>">
+                <button type="submit" class="btn btn-primary mb-2" onclick="return confirm('Are you sure you want to delete this post?');"><i class="fas fa-trash"></i></button>
+            </form>
+        </div>
+        <%}%>
+            <!-- Modal -->
+            <div class="modal fade" id="editJobPostModal" tabindex="-1" role="dialog"
+                aria-labelledby="editJobPostModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editJobPostModalLabel">Edit Job Post</h5>
+                        </div>
+                        <div class="modal-body">
+                            <form method="post" action="/api/job_post/update/<%- job_post.POST_ID %>">
+                                <div class="form-group row">
+                                    <label for="designation" class="form-label">Designation</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="designation" name="designation"
+                                            value="<%= job_post.DESIGNATION%>" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="company_name" class="form-label">Company Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="company_name" name="company_name"
+                                            value="<%= job_post.COMPANY_NAME%>" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="job_type" class="form-label">Job Type</label>
+                                    <select class="form-select" aria-label="Default select example" name="job_type">
+                                        <option selected value="<%= job_post.JOB_TYPE%>">
+                                            <%= job_post.JOB_TYPE%>
+                                        </option>
+                                        <option value="Part-Time">Part-Time</option>
+                                        <option value="Full-Time">Full-Time</option>
+                                        <option value="Self-Employed">Self-Employed</option>
+                                        <option value="Internship">Internship</option>
+                                        <option value="Freelance">Freelance</option>
+                                        <option value="Contract">Contract</option>
+                                        <option value="Seasonal">Seasonal</option>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="remote" class="form-label">Remote</label>
+                                    <select class="form-select" aria-label="Default select example" name="remote">
+                                        <option selected value="<%= job_post.REMOTE%>">
+                                            <%= job_post.REMOTE%>
+                                        </option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="requirements" class="form-label">Requirements</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="requirements" name="requirements"
+                                            value="<%= job_post.REQUIREMENTS%>" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="email" class="form-label">Contact Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                            value="<%= job_post.EMAIL%>" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="phone_no" class="form-label">Contact Phone No.</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="phone_no" name="phone_no"
+                                            value="<%= job_post.PHONE_NO%>">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="vacancy" class="form-label">Vacancy</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="vacancy" name="vacancy"
+                                            value="<%= job_post.VACANCY%>">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="expected_salary" class="form-label">Expected Salary</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="expected_salary" name="expected_salary"
+                                            value="<%= job_post.EXPECTED_SALARY%>">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <input type="text" name="latitude" value="<%= job_post.LATITUDE%>" hidden>
+                                    <input type="text" name="longitude" value="<%= job_post.LONGITUDE%>" hidden>
+                                </div>
+                                <button type="submit" class="btn btn-primary mb-2">Update Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span>Posted on: <%= job_post.TIMESTAMP %>
+            </span>
+            <br />
+            <span>Posted by: <%= job_post.USER_NAME %>
+            </span>
+            <br />
+            <br />
+            <div class="postDescription" style="background-color: rgb(248, 250, 255);">
+                <h4 class="template-title">Designation: <%= job_post.DESIGNATION %>
+                </h4>
+                <h6>Company Name: <%= job_post.COMPANY_NAME%>
+                </h6>
+                <ul style="font-size: 16px;">
+                    <ul>Requirements: <%=job_post.REQUIREMENTS%>
+                    </ul>
+                    <ul>Job Type: <%=job_post.JOB_TYPE%>
+                    </ul>
+                    <ul>Remote: <%=job_post.REMOTE%>
+                    </ul>
+                    <ul>Expected Salary: <%=job_post.EXPECTED_SALARY%>
+                    </ul>
+                    <ul>No. of Vacany: <%=job_post.VACANCY%>
+                    </ul>
+                    <ul>Contact Email: <%=job_post.EMAIL%>
+                    </ul>
+                    <% if (job_post.PHONE_NO) {%>
+                        <ul>Contact Phone No.: <%=job_post.PHONE_NO%>
+                        </ul>
+                        <%}%>
+                    <% if (job_post.LATITUDE !== null || job_post.LONGITUDE !== null) {%> 
+                    <ul><a href="https://maps.google.com/maps?q=<%- job_post.LATITUDE%>,<%- job_post.LONGITUDE%>" style="color: #000000;">
+                        See Location on Map <i class="fas fa-map-marker-alt fa-2x" style="color:#940031;"></i>
+                    </a></ul>
+                    <% }%>
+                </ul>
+            </div>
+            <div class="timeline-footer">
+                <div class="d-flex justify-content-end">
+                    <div id="cv"></div>
+                    <% if (cur_user_id === job_post.USER_ID) {%>
+                    <div id="allCV">
+                        <a href="/api/job_post/CV/<%- job_post.POST_ID%>" class="btn btn-primary mb-2">Get Applicants' CV</a>
+                    </div>
+                    <% }%>
+                </div>
+                
+                <div class="d-flex justify-content" style="margin-bottom: 10px;">
+                        <%if (job_post.IS_LIKED==='NO' ) {%>
+                            <form id="like<%- job_post.POST_ID %>" action="/api/post/like/<%- job_post.POST_ID %>" method="post">
+                                <input name="type" value="job_post" hidden>
+                                <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                    onclick="document.getElementById('like<%- job_post.POST_ID %>').submit();" style="color: rgb(95, 95, 95);"><i
+                                        class="fa fa-thumbs-up fa-fw fa-lg m-r-3" style="color: rgb(95, 95, 95);"></i>
+                                    Like </a>
+                                <%= job_post.LIKE_COUNT%>
+                            </form>
+                            <%} else {%>
+                                <form id="unlike<%- job_post.POST_ID %>" action="/api/post/unlike/<%- job_post.POST_ID %>" method="post">
+                                    <input name="type" value="job_post" hidden>
+                                    <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                        onclick="document.getElementById('unlike<%- job_post.POST_ID %>').submit();"><i
+                                            class="fa fa-thumbs-up fa-fw fa-lg m-r-3" style="color: rgb(26, 26, 224);"></i>
+                                        Like </a>
+                                </form>
+                                <%= job_post.LIKE_COUNT%>
+                                    <%}%>
+                                        <a href="<%- job_post.POST_ID%>" class="m-r-15 text-inverse-lighter" style="color: rgb(95, 95, 95);"><i
+                                                class="fa fa-comments fa-fw fa-lg m-r-3" style="color: rgb(95, 95, 95);"></i>
+                                            Comment </a>
+                                        <%= job_post.COMMENT_COUNT%>
+                </div>
+                <div class="timeline-comment-box">
+                    <div class="input">
+                        <form action="/api/post/comment/<%- job_post.POST_ID %>" method="post">
+                            <input name="type" value="job_post" hidden>
+                            <div class="input-group">
+                                <input type="text" class="form-control rounded-corner" name="body" placeholder="Write a comment...">
+                                <span class="input-group-btn p-l-10">
+                                    <button class="btn btn-primary f-s-12 rounded-corner" type="submit">Comment</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="job_postAllComments">
+                </div>
+            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<script>
+    let job_post = <%- JSON.stringify(job_post)%>;
+    let cur_user_id = <%- cur_user_id%>;
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: `/api/post/comment/${job_post.POST_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let time = data.TIMESTAMP.split(".");
+                    if (cur_user_id === job_post.USER_ID && cur_user_id !== data.USER_ID) {
+                        $(`.job_postAllComments`).append(
+                            `<div class="card p-3" style="margin-bottom: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="user d-flex flex-row align-items-center"> <img src=${data.PROFILE_PICTURE}" width="30"
+                                                class="user-img rounded-circle mr-2"> 
+                                            <span>
+                                                <a href="/api/user/${data.USER_ID}"><small class="font-weight-bold text-primary">${data.USER_NAME}</small></a> 
+                                                <small class="font-weight-bold">${data.BODY}</small></span> </div> 
+                                                <small>${time[0]}</small>
+                                    </div>
+                                    <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
+                                        <form method="post" action="/api/post/comment/delete/${data.COMMENT_ID}">
+                                            <input name="type" value="job_post" hidden>
+                                            <input type="text" name="post_id" value="${data.POST_ID}" hidden>
+                                            <button type="submit" class="btn btn-primary mb-2" onclick="return confirm('Are you sure you want to delete this post?');"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </div>`
+                        )
+                    }
+                    else if (cur_user_id === data.USER_ID) {
+                        $(`.job_postAllComments`).append(
+                            `<div class="card p-3" style="margin-bottom: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="user d-flex flex-row align-items-center"> <img src=${data.PROFILE_PICTURE} width="30" height="30"
+                                                class="user-img rounded-circle mr-2"> 
+                                            <span>
+                                                <a href="/api/user/${data.USER_ID}"><small class="font-weight-bold text-primary">${data.USER_NAME}</small></a> 
+                                                <small class="font-weight-bold">${data.BODY}</small></span> </div> 
+                                                <small>${time[0]}</small>
+                                    </div>
+                                    <div class="d-flex justify-content-end" style="margin-bottom: 10px;">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary mb-2" style="margin-right: 5px;" data-bs-toggle="modal" data-bs-target="#editCommentModal${data.COMMENT_ID}">
+                                            <i class="fas fa-pen"></i></button>
+                                        <form method="post" action="/api/post/comment/delete/${data.COMMENT_ID}">
+                                            <input name="type" value="job_post" hidden>
+                                            <input type="text" name="post_id" value="${data.POST_ID}" hidden>
+                                            <button type="submit" class="btn btn-primary mb-2" onclick="return confirm('Are you sure you want to delete this post?');"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="editCommentModal${data.COMMENT_ID}" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editCommentModalLabel">Edit Comment</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form method="post" action="/api/post/comment/update/${data.COMMENT_ID}">
+                                                        <div class="form-group row">
+                                                                <textarea class="form-control" id="comment" name="body"
+                                                                    required>${data.BODY}</textarea>
+                                                        </div>
+                                                        <input name="type" value="job_post" hidden>
+                                                        <input type="text" name="post_id" value="${data.POST_ID}" hidden>
+                                                        <button type="submit" class="btn btn-primary mb-2">Edit Comment</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                        )
+                    }
+                    else {
+                        $(`.job_postAllComments`).append(
+                            `<div class="card p-3" style="margin-bottom: 10px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="user d-flex flex-row align-items-center"> <img src=${data.PROFILE_PICTURE} width="30"
+                                                class="user-img rounded-circle mr-2"> 
+                                            <span>
+                                                <a href="/api/user/${data.USER_ID}"><small class="font-weight-bold text-primary">${data.USER_NAME}</small></a> 
+                                                <small class="font-weight-bold">${data.BODY}</small></span> </div> 
+                                                <small>${time[0]}</small>
+                                    </div>
+                                </div>`
+                        )
+                    }
+                })
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/job_post/applied/${job_post.POST_ID}`,
+            success: function (result) {
+                if (cur_user_id !== job_post.USER_ID && result.COUNT === 0) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/api/job_post/CV`,
+                        success: function (resultCV) {
+                            $('#cv').append(
+                                `<button type="button" class="btn btn-primary mb-2" style="margin-right: 5px;" data-bs-toggle="modal"
+                        data-bs-target="#getCVModal">Get CV to Apply</button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="getCVModal" tabindex="-1" role="dialog" aria-labelledby="getCVModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="getCVModalLabel" style="text-align: center; margin-left: 220px">CV</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/api/job_post/CV/${job_post.POST_ID}" method="post">
+                                            <span style="white-space: pre-line">
+                                                ${resultCV}
+                                            </span>
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary mb-2">Submit CV</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`
+                            )
+                        }
+                    })
+                }
+                else if (cur_user_id !== job_post.USER_ID && result.COUNT === 1) {
+                    $('#cv').append(
+                        `<button type="button" class="btn btn-primary mb-2" style="margin-right: 5px;" data-bs-toggle="modal"
+                        data-bs-target="#getCVModal" disabled>Already Applied</button>`
+                    )
+                }
+            }
+        })
+    });
+</script>

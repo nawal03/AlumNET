@@ -1,0 +1,673 @@
+<style>
+    legend {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+        color: brown;
+    }
+
+    li {
+        margin-bottom: 5px;
+    }
+
+    img {
+        height: 300px;
+        width: 320px;
+    }
+  
+    .search_btn{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    margin-bottom: 5px;
+    
+    }
+    .search_btn:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+    input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    }
+
+    select:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    }
+    .username{
+        text-decoration: none;
+    }
+    .username:hover{
+        text-decoration: underline black;
+    }
+    .slidecontainer {
+    width: 100%;
+    }
+    .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    color: #000000;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #000000;
+    cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #000000;
+    cursor: pointer;
+    }
+    
+    input[type='range'] {
+      overflow: hidden;
+      width: 100px;
+      height: 10px;
+      -webkit-appearance: none;
+      background-color: #f5f5f5;
+    }
+    
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 10px;
+      color: #000000;
+      margin-top: -1px;
+    }
+    
+    input[type='range']::-webkit-slider-thumb {
+      width: 10px;
+      -webkit-appearance: none;
+      height: 10px;
+      cursor: ew-resize;
+      background: #000000;
+      box-shadow: -80px 0 0 80px #000000;
+    }
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: #000000; 
+}
+input[type="range"]::-moz-range-track {  
+  background-color: #f5f5f5;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #000000; 
+}
+input[type="range"]::-ms-fill-upper {  
+  background-color: #f5f5f5;
+}
+    .timeline {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: relative
+    }
+
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        bottom: 5px;
+        width: 5px;
+        background: #2d353c;
+        left: 20%;
+        margin-left: -2.5px
+    }
+
+    .timeline>li {
+        position: relative;
+        min-height: 50px;
+        padding: 20px 0
+    }
+
+    .timeline .timeline-time {
+        position: absolute;
+        left: 0;
+        width: 18%;
+        text-align: right;
+        top: 30px
+    }
+
+    .timeline .timeline-time .date,
+    .timeline .timeline-time .time {
+        display: block;
+        font-weight: 600
+    }
+
+    .timeline .timeline-time .date {
+        line-height: 16px;
+        font-size: 12px
+    }
+
+    .timeline .timeline-time .time {
+        line-height: 24px;
+        font-size: 20px;
+        color: #242a30
+    }
+
+    .timeline .timeline-icon {
+        left: 15%;
+        position: absolute;
+        width: 10%;
+        text-align: center;
+        top: 40px
+    }
+
+    .timeline .timeline-icon a {
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        background: #d9e0e7;
+        line-height: 10px;
+        color: #fff;
+        font-size: 14px;
+        border: 5px solid #2d353c;
+        transition: border-color .2s linear
+    }
+
+    .timeline .timeline-body {
+        margin-left: 23%;
+        margin-right: 17%;
+        background: #fff;
+        position: relative;
+        padding: 20px 25px;
+        border-radius: 6px
+    }
+
+    .timeline .timeline-body:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 10px solid transparent;
+        border-right-color: #fff;
+        left: -20px;
+        top: 20px
+    }
+
+    .timeline .timeline-body>div+div {
+        margin-top: 15px
+    }
+
+    .timeline .timeline-body>div+div:last-child {
+        margin-bottom: -20px;
+        padding-bottom: 20px;
+        border-radius: 0 0 6px 6px
+    }
+
+    .timeline-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e7eb;
+        line-height: 30px
+    }
+
+    .timeline-header .userimage {
+        float: left;
+        width: 34px;
+        height: 34px;
+        border-radius: 40px;
+        overflow: hidden;
+        margin: -2px 10px -2px 0
+    }
+
+    .timeline-header .username {
+        font-size: 16px;
+        font-weight: 600
+    }
+
+    .timeline-header .username,
+    .timeline-header .username a {
+        color: #2d353c
+    }
+
+    .timeline img {
+        max-width: 100%;
+        display: block
+    }
+
+    .timeline-content {
+        letter-spacing: .25px;
+        line-height: 18px;
+        font-size: 13px
+    }
+
+    .timeline-content:after,
+    .timeline-content:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .timeline-title {
+        margin-top: 0
+    }
+
+    .timeline-footer {
+        background: #fff;
+        border-top: 1px solid #e2e7ec;
+        padding-top: 15px
+    }
+
+    .timeline-footer a:not(.btn) {
+        color: #575d63
+    }
+
+    .timeline-footer a:not(.btn):focus,
+    .timeline-footer a:not(.btn):hover {
+        color: #2d353c
+    }
+
+    .timeline-likes {
+        color: #6d767f;
+        font-weight: 600;
+        font-size: 12px
+    }
+
+    .timeline-likes .stats-right {
+        float: right
+    }
+
+    .timeline-likes .stats-total {
+        display: inline-block;
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-icon {
+        float: left;
+        margin-right: 5px;
+        font-size: 9px
+    }
+
+    .timeline-likes .stats-icon+.stats-icon {
+        margin-left: -2px
+    }
+
+    .timeline-likes .stats-text {
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-text+.stats-text {
+        margin-left: 15px
+    }
+
+    .timeline-comment-box {
+        background: #f2f3f4;
+        margin-left: -25px;
+        margin-right: -25px;
+        padding: 20px 25px
+    }
+
+    .timeline-comment-box .user {
+        float: left;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        border-radius: 30px
+    }
+
+    .timeline-comment-box .user img {
+        max-width: 100%;
+        max-height: 100%
+    }
+
+    .timeline-comment-box .user+.input {
+        margin-left: 44px
+    }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row">
+        <h2
+            style="margin-left: 300px; margin-bottom: 30px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+            <%= title%>
+        </h2>
+        <div class="col-md-12">
+            <div class="row">
+            <div id="content" class="content col-8">
+                <%if (merchs.length===0) {%>
+                    <h5 style="margin-left: 300px; color: gray; font-style: italic;">No merchandise to show...</h3>
+                        <% }%>
+                            <!-- begin #profile-post tab -->
+                            <div class="tab-pane fade active show" id="profile-post">
+                                <!-- begin timeline -->
+                                <ul class="timeline">
+                                    <% for (merch of merchs) { %>
+                                        <li>
+                                            <!-- begin timeline-time -->
+                                            <div class="timeline-time">
+                                                <span class="date">
+                                                    <%= merch.TIMESTAMP %>
+                                                </span>
+                                            </div>
+                                            <!-- end timeline-time -->
+                                            <!-- begin timeline-icon -->
+                                            <div class="timeline-icon">
+                                                <a href="javascript:;">&nbsp;</a>
+                                            </div>
+                                            <!-- end timeline-icon -->
+                                            <!-- begin timeline-body -->
+                                            <div class="timeline-body">
+                                                <div class="timeline-header">
+                                                    <a href="/api/user/<%- merch.USER_ID%>" class="username"><span class="user_name">
+                                                            <%= merch.USER_NAME%>
+                                                        </span></a>
+                                                    <!-- <span class="pull-right text-muted">Designation: <%= merch.DESIGNATION %></span> -->
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <h5 class="card-title">
+                                                        <a href="/api/merch/<%- merch.POST_ID %>" style="color: #242a30; text-decoration:none;">
+                                                        <%= merch.PRODUCT_NAME%></a>
+                                                    </h5>
+                                                    <h6>Price: <%= merch.PRICE%></h6>
+                                                    <p class="card-text" style="font-size: 14px;">
+                                                        <%= merch.DESCRIPTION%>
+                                                    </p>
+                                                    <h6 style="font-size: 14px;">
+                                                        Contact Email: <%= merch.EMAIL%>
+                                                    </h6>
+                                                    <% if (merch.PHONE_NO) {%>
+                                                    <h6 style="font-size: 14px;">
+                                                        Contact Phone No.: <%= merch.PHONE_NO%>
+                                                    </h6>
+                                                    <% }%>
+                                                    <br/>
+                                                    <img src="<%= merch.IMAGE%>">
+                                                </div>
+                                                    <% if (cur_user_id===merch.USER_ID) { %>
+                                                    <div class="d-flex justify-content-start">
+                                                        <!-- Button trigger modal -->
+                                                        <button style="margin-right: 5px;" type="button"
+                                                            class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                                            data-bs-target="#editMerchModal<%- merch.POST_ID %>">
+                                                            <i class="fas fa-pen"></i></button>
+                                                        <form method="post"
+                                                            action="/api/merch/delete/<%- merch.POST_ID %>">
+                                                            <button type="submit" class="btn btn-primary mb-2"
+                                                                onclick="return confirm('Are you sure you want to delete this post?');"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </div>
+                                                    <% } %>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade"
+                                                            id="editMerchModal<%- merch.POST_ID %>" tabindex="-1"
+                                                            role="dialog"
+                                                            aria-labelledby="editMerchModalLabel<%- merch.POST_ID %>"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title"
+                                                                            id="editMerchModalLabel<%- merch.POST_ID %>">
+                                                                            Edit Merch Post</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/merch/update/<%- merch.POST_ID %>">
+                                                                            <div class="form-group row">
+                                                                                <label for="product_name" class="form-label">Product Name</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="product_name" name="product_name" 
+                                                                                    value="<%= merch.PRODUCT_NAME%>" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="price" class="form-label">Price</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="number" class="form-control" id="price" name="price" 
+                                                                                    min="1" value="<%= merch.PRICE%>" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="email" class="form-label">Contact Email</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="email" class="form-control" id="email" name="email" 
+                                                                                    value="<%= merch.EMAIL%>" required>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="phone_no" class="form-label">Contact Phone No.</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="phone_no" name="phone_no" value="<%= merch.PHONE_NO%>">
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="description" class="form-label">Description</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <textarea class="form-control" id="description" name="description" required><%= merch.DESCRIPTION%></textarea>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <div class="col-sm-10">
+                                                                                    <div class="image">
+                                                                                        <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                                                                            <input accept="image/*" type="file" name="fileImage" id="inputImage"
+                                                                                                style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                                                                            <input type="hidden" id="ImageUrl" name="image" value="<%- merch.IMAGE%>" />
+                                                                                            <br>
+                                                                                            <img src="<%- merch.IMAGE%>" id="ImagePreview" alt="image"
+                                                                                                style="padding-top: 20px; padding-bottom: 20px" />
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary mb-2">Update
+                                                                                Merch Post</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="timeline-footer">
+                                                            <div class="d-flex justify-content">
+                                                            <%if (merch.IS_LIKED==='NO' ) {%>
+                                                                <form id="like<%- merch.POST_ID %>"
+                                                                    action="/api/post/like/<%- merch.POST_ID %>"
+                                                                    method="post">
+                                                                    <input name="type" value="merch" hidden>
+                                                                    <a href="javascript:;"
+                                                                        class="m-r-15 text-inverse-lighter"
+                                                                        onclick="document.getElementById('like<%- merch.POST_ID %>').submit();"><i
+                                                                            class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>
+                                                                        Like </a>
+                                                                    <%= merch.LIKE_COUNT%>
+                                                                </form>
+                                                                <%} else {%>
+                                                                    <form id="unlike<%- merch.POST_ID %>"
+                                                                        action="/api/post/unlike/<%- merch.POST_ID %>"
+                                                                        method="post">
+                                                                        <input name="type" value="merch" hidden>
+                                                                        <a href="javascript:;"
+                                                                            class="m-r-15 text-inverse-lighter"
+                                                                            onclick="document.getElementById('unlike<%- merch.POST_ID %>').submit();"><i
+                                                                                class="fa fa-thumbs-up fa-fw fa-lg m-r-3"
+                                                                                style="color: rgb(26, 26, 224);"></i>
+                                                                            Like </a>
+                                                                    </form>
+                                                                    <%= merch.LIKE_COUNT%>
+                                                                        <%}%>
+                                                                            <a href="/api/merch/<%- merch.POST_ID%>"
+                                                                                class="m-r-15 text-inverse-lighter"><i
+                                                                                    class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+                                                                                Comment </a>
+                                                                            <%= merch.COMMENT_COUNT%>
+                                                        </div>
+                                                        </div>
+                                                        <div class="timeline-comment-box">
+                                                            <div class="input">
+                                                                <form action="/api/post/comment/<%- merch.POST_ID %>"
+                                                                    method="post">
+                                                                    <input name="type" value="merch" hidden>
+                                                                    <div class="input-group">
+                                                                        <input type="text"
+                                                                            class="form-control rounded-corner"
+                                                                            name="body"
+                                                                            placeholder="Write a comment...">
+                                                                        <span class="input-group-btn p-l-10">
+                                                                            <button
+                                                                                class="btn btn-primary f-s-12 rounded-corner"
+                                                                                type="submit">Comment</button>
+                                                                        </span>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                            </div>
+                                            <!-- end timeline-body -->
+                                        </li>
+                                        <% }%>
+                                </ul>
+                                <!-- end timeline -->
+                            </div>
+                            <!-- end #profile-post tab -->
+            </div>
+            <div class="content col-3 text-right" style="margin-left: 50px;">
+                    <div>
+                        <!-- bound must -->
+                        <form action="/api/merch/search" method="get">
+                            <label for="price_lower_bound" class="form-label">Lowest Price</label>
+                            <input type="range" min="0" max="100000" value="0" name="price_lower_bound" id="price_lower_bound">
+                            <label for="price_upper_bound" class="form-label">Highest Price</label>
+                            <input type="range" min="0" max="100000" value="100000" name="price_upper_bound" id="price_upper_bound">
+                            <input type="text" placeholder="Enter search string" name="str" style="width: 180px; height: 35px;">
+                            <button type="submit" class="btn btn-primary search_btn"><i class="fas fa-search"></i></button>
+                        </form>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 225px;">
+                            Sort By
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="/api/merch/all?sort=mostPopular">Most Popular</a>
+                            <a class="dropdown-item" href="/api/merch/all?sort=price&&order=asc">Price: ASC</a>
+                            <a class="dropdown-item" href="/api/merch/all?sort=price&&order=desc">Price: DESC</a>
+                        </div>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-2" style="width: 225px;" data-bs-toggle="modal" data-bs-target="#addMerchModal">
+                        Add New Merch Post</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="addMerchModal" tabindex="-1" role="dialog" aria-labelledby="addMerchModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMerchModalLabel">Add New Merch Post</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/api/merch">
+                    <div class="form-group row">
+                        <label for="product_name" class="form-label">Product Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="product_name" name="product_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="price" class="form-label">Price</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="price" name="price" min="1" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="form-label">Contact Email</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="phone_no" class="form-label">Contact Phone No.</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="phone_no" name="phone_no">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <div class="image">
+                                <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                    <input accept="image/*" type="file" name="fileImage" id="inputMerchImage"
+                                        style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;" required>
+                                    <input type="hidden" id="merchImageUrl" name="image" value="" />
+                                    <br>
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fmerch-default.png?alt=media&token=d8d37f43-c367-4f6e-bc69-b305fa855f14" id="merchImagePreview" alt="merch_image"
+                                        style="padding-top: 20px; padding-bottom: 20px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Post Merch</button>
+                </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // render the image file in image view
+    const imageInputField = document.getElementById("inputMerchImage")
+    const preview = document.getElementById("merchImagePreview")
+    const logUrlInputField = document.querySelector("#merchImageUrl")
+    imageInputField.addEventListener("change", function () {
+        //console.log("image selected for logo")
+        if (this.files && this.files[0]) {
+            uploadToFirebase(this.files[0], logUrlInputField, function (imageUrl) {
+                //console.log("adding image url to src")
+                preview.setAttribute('src', imageUrl);
+            });
+        }
+    });
+    function uploadToFirebase(file, logUrlInputField, onUploadSuccess) {
+            const fileName = file.name;
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate + "-" + fileName);
+            const uploadTask = spaceRef.put(file)
+                .then(function (snapshot) {
+                    //console.info("image uploaded in firebase");
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        //console.log('File available at', downloadURL);
+                        logUrlInputField.setAttribute("value", downloadURL);
+                        onUploadSuccess(downloadURL);
+                    });
+                })
+        }
+</script>

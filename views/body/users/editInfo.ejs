@@ -1,0 +1,199 @@
+<style>
+    .infoEdit{
+        display: block;
+        text-align: left;
+        margin: auto;
+        width: 750px;
+        padding: 20px;
+        box-shadow: 3px 3px 3px 3px rgb(204, 204, 204);
+    }
+    .form-group-row{
+        display: inline-block;
+    }
+    .form-group-row{
+        font-weight: bold;
+    }
+    .btn{
+        color: white;
+        background-color: #940031;
+    }
+    .btn:hover{
+        background-color: white;
+        color: #940031;
+    }
+</style>
+<div class="infoEdit">
+    <form method="post" action="/api/user/edit">
+        <div class="form-group row">
+            <div class="mb-3" style="margin-left: 180px">
+                <div class="image">
+                    <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                        <img src="<%- user.PROFILE_PICTURE%>" id="profilePicturePreview" alt="profile picture" class="rounded-circle img-fluid"
+                            style="width: 150px; padding-top: 10px;" />
+                        <input accept="image/*" type="file" name="fileImage" id="inputProfilePicture"
+                            style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                        <input type="hidden" id="profilePictureUrl" name="profile_picture" value="<%= user.PROFILE_PICTURE%>" />
+                        <br>                 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="first_name" class="col-sm-2 col-form-label">First Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="first_name" name="first_name" value="<%= user.FIRST_NAME %>" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="last_name" class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="last_name" name="last_name" value="<%= user.LAST_NAME %>" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="city" class="col-sm-2 col-form-label">City</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="city" name="city" value="<%= user.CITY %>" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="state" class="col-sm-2 col-form-label">State</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="state" name="state" value="<%= user.STATE %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="country" class="col-sm-2 col-form-label">Country</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="country" name="country" value="<%= user.COUNTRY %>" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="phone_no" class="col-sm-2 col-form-label">Phone No.</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="phone_no" name="phone_no" value="<%= user.PHONE_NO %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="about_me" class="col-sm-2 col-form-label">About Me</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="about_me" name="about_me" value="<%= user.ABOUT_ME %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="date_of_birth" class="col-sm-2 col-form-label">Date of Birth</label>
+            <div class="col-sm-10">
+                <%let date = [null]; if(user.DATE_OF_BIRTH !== null) {dates=user.DATE_OF_BIRTH.toISOString(); date=dates.split('T');}%>
+                <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" value="<%= date[0]%>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="student_id" class="col-sm-2 col-form-label">Student ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="student_id" name="student_id" value="<%= user.STUDENT_ID %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">Hall</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="hall" name="hall" value="<%= user.HALL %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">Facebook Link</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="facebook" name="facebook" value="<%= user.FACEBOOK %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">Twitter Link</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="twitter" name="twitter" value="<%= user.TWITTER %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">LinkedIN</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="linkedin" name="linkedin" value="<%= user.LINKEDIN %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">Google Scholar</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="google_scholar" name="google_scholar" value="<%= user.GOOGLE_SCHOLAR %>">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="hall" class="col-sm-2 col-form-label">Research Gate</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="research_gate" name="research_gate" value="<%= user.RESEARCH_GATE %>">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="text-align: center; margin: auto; display: flex;">Update</button>
+    </form>
+    <br/>
+    <br/>
+
+    <!-- error list -->
+    <% if (errors !== undefined) { %>
+        <div class="row mx-0 pb-0 alert alert-danger">
+            <ul>
+                <%= errors %>
+            </ul>
+        </div>
+        <% } %>
+
+
+    <form method="post" action="/api/user/password">
+        <div class="form-group row">
+            <label for="new_password" class="col-sm-2 col-form-label">New Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="new_password" name="new_password" required minlength="8">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="cur_password" class="col-sm-2 col-form-label">Current Password</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="cur_password" name="current_password" required minlength="8">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="text-align: center; margin: auto; display: flex;">Change Password</button>
+    </form>
+</div>
+
+<script type="module">   
+    // render the image file in image view
+        const imageInputField = document.getElementById("inputProfilePicture")
+        const preview = document.getElementById("profilePicturePreview")
+        const logUrlInputField = document.querySelector("#profilePictureUrl")
+        imageInputField.addEventListener("change", function () {
+            //console.log("image selected for logo")
+            if (this.files && this.files[0]) {
+                uploadToFirebase(this.files[0], logUrlInputField, function (imageUrl) {
+                    //console.log("adding image url to src")
+                    preview.setAttribute('src', imageUrl);
+                });
+            }
+        });
+        function uploadToFirebase(file, logUrlInputField, onUploadSuccess) {
+                const fileName = file.name;
+                // Points to the root reference
+                const storageRef = firebase.storage().ref();
+                // Points to 'images'
+                const imagesStorageRef = storageRef.child('images');
+                // space ref where image will be stored
+                const currentDate = new Date().getTime();
+                const spaceRef = imagesStorageRef.child(currentDate + "-" + fileName);
+                const uploadTask = spaceRef.put(file)
+                    .then(function (snapshot) {
+                        //console.info("image uploaded in firebase");
+                        // Handle successful uploads on complete
+                        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                        snapshot.ref.getDownloadURL().then((downloadURL) => {
+                            //console.log('File available at', downloadURL);
+                            logUrlInputField.setAttribute("value", downloadURL);
+                            onUploadSuccess(downloadURL);
+                        });
+                    })
+            }
+</script>

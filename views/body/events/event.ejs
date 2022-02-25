@@ -1,0 +1,449 @@
+<style>
+    img {
+        height: 400px;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:disabled{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+</style>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-center">
+    <img src="<%- event.COVER_PHOTO%>" class="card-img-top" alt="...">
+    <div class="card-body">
+        <div class="postDescription" style="background-color: rgb(248, 250, 255);">
+            <ul style="font-size: 16px;">
+                <h4>
+                    <%= event.EVENT_NAME%>
+                </h4>
+                <%let dates=event.EVENT_DATE.toISOString(); let date=dates.split('T')%>
+                    <h6>Happening at: <%= date[0]%>
+                    </h6>
+                <ul>Description: <%= event.DESCRIPTION%>
+                </ul>
+                <% if (event.PLATFORM !== null) {%>
+                <ul>Platform: <%=event.PLATFORM%>
+                </ul>
+                <% }%>
+                <% if (event.FEES === 0) {%>
+                <ul> No Entry Fee
+                </ul>
+                <% } else {%>
+                <ul> Fees: <%= event.FEES%>
+                </ul>
+                <% }%>
+                <% if (event_type !== 'reunion') {%>
+                <ul>Available For: <%= event.AVAILABLE_FOR%>
+                </ul>
+                <% } else {%>
+                <ul>Department: <%= event.DEPARTMENT%>
+                </ul>
+                <ul>Batch: <%= event.BATCH%>
+                </ul>
+                <% }%>
+                <% if (event_type ==='seminar' ) {%>
+                <ul>Topic: <%= event.TOPIC%>
+                </ul>
+                <ul>Special Guests: <%= event.SPECIAL_GUESTS%>
+                </ul>
+                <% }%>
+                <ul><a href="/api/group/<%- event.GROUP_ID%>" style="color: #000000; text-decoration: none;">Organized By: <%= event.GROUP_NAME%></a>
+                </ul>
+                <ul><a href="https://maps.google.com/maps?q=<%- event.LATITUDE%>,<%- event.LONGITUDE%>"
+                        style="color: #000000;">
+                        See Location on Map <i class="fas fa-map-marker-alt fa-2x" style="color:#940031;"></i>
+                    </a>
+                </ul>
+            </ul>
+        </div>
+        
+        <div class="d-flex justify-content-end">
+            <% if (event.IS_GOING==='YES' ) { %>
+                <form method="post" action="/api/event/remove_going/<%- event.EVENT_ID %>">
+                    <input type="text" name="event_type" value="<%- event_type %>" hidden>
+                    <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Cancel Going</button>
+                </form>
+            <% } else {%>
+                <form method="post" action="/api/event/going/<%- event.EVENT_ID %>">
+                    <input type="text" name="event_type" value="<%- event_type %>" hidden>
+                    <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Going</button>
+                </form>
+            <% }%>
+            <% if (event.GROUP_ADMIN_ID!==cur_user_id ) {%>
+                <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                    data-bs-target="#seeGoingModal">
+                    See All Goings
+                </button>
+            <% }%>
+            <% if (event.GROUP_ADMIN_ID===cur_user_id ) {%>
+            <div class="dropdown">
+                <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Event Settings
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                        data-bs-target="#editEventModal">
+                        Edit Event Info
+                    </button>
+                    <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                        data-bs-target="#seeGoingModal">
+                        See All Goings
+                    </button>
+                    <form method="post" action="/api/<%- event_type%>/delete/<%- event.EVENT_ID%>">
+                        <button type="submit" class="dropdown-item" style="margin-right: 5px;"
+                            onclick="return confirm('Are you sure you want to delete this event?');">Delete
+                            Event</button>
+                    </form>
+                </div>
+            </div>
+            <% } %> 
+        </div>
+    </div>
+</div>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <%if (cur_user_id===event.GROUP_ADMIN_ID) {%>
+                        <!-- Button trigger modal -->
+                        <div class=" text-right" style="margin-bottom: 10px;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addScheduleModal">Add Scedule
+                                <i class="fas fa-plus"></i></button>
+                        </div>
+                        <%}%>
+                            <!-- Modal -->
+                            <div class="modal fade" id="addScheduleModal" tabindex="-1" role="dialog"
+                                aria-labelledby="addScheduleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addScheduleModalLabel">Add Schedule</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/event/schedule/<%- event.EVENT_ID%>">
+                                                <input name="event_type" value="<%- event_type%>" hidden>
+                                                <div class="form-group row">
+                                                    <label for="start_time" class="col-sm-2 col-form-label">Start Time</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="datetime-local" class="form-control" id="start_time" name="start_time"
+                                                            required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="end_time" class="col-sm-2 col-form-label">End Time</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="datetime-local" class="form-control" id="end_time" name="end_time" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="description"
+                                                            name="description" required ></input>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mb-2">Add Schedule</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-light">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Start Time</th>
+                                        <th scope="col">End Time</th>
+                                        <th scope="col">Description</th>
+                                        <%if (cur_user_id===event.GROUP_ADMIN_ID) {%>
+                                            <th colspan="2">Action</th>
+                                            <%}%>
+                                    </tr>
+                                </thead>
+                                <tbody id="schedule">
+                                </tbody>
+                            </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Edit Event Modal -->
+<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editEventModalLabel">Edit Event Info</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/api/<%- event_type%>/update/<%- event.EVENT_ID %>">
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="event_name" class="form-label">Event Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="event_name" name="event_name"
+                                value="<%= event.EVENT_NAME%>" required>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="company_name" class="form-label">Event Date</label>
+                        <div class="col-sm-10">
+                            <%dates=event.EVENT_DATE.toISOString(); date=dates.split('T'); %>
+                                <input type="date" class="form-control" id="event_date" name="event_date" value="<%= date[0]%>">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="description" class="form-label">Description</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="description" name="description"
+                                value="<%= event.DESCRIPTION%>" required>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="platform" class="form-label">Platform</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="platform" name="platform" value="<%= event.PLATFORM%>">
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="fees" class="form-label">Fees</label>
+                        <div class="col-sm-10">
+                            <input type="number" min="0" class="form-control" id="fees" name="fees" value="<%= event.FEES%>" required>
+                        </div>
+                    </div>
+                    <% if (event_type !=='reunion' ) {%>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="available_for" class="form-label">Available For</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="available_for" name="available_for"
+                                value="<%= event.AVAILABLE_FOR%>" required>
+                        </div>
+                    </div>
+                    <% } else {%>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="department" class="form-label">Department</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="department" name="department" value="<%= event.DEPARTMENT%>"
+                                required>
+                        </div>
+                    </div>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <label for="batch" class="form-label">Batch</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="batch" name="batch" value="<%= event.BATCH%>"
+                                required>
+                        </div>
+                    </div>
+                    <% }%>
+                    <% if (event_type==='seminar' ) {%>
+                        <div class="form-group row" style="margin-left: 20px">
+                            <label for="topic" class="form-label">Topic</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="topic" name="topic" value="<%= event.TOPIC%>"
+                                    required>
+                            </div>
+                        </div>
+                        <div class="form-group row" style="margin-left: 20px">
+                            <label for="special_guestslass="form-label">Special Guests</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="special_guests" name="special_guests" value="<%= event.SPECIAL_GUESTS%>" required>
+                            </div>
+                        </div>
+                    <% }%>
+                    <div class="form-group row" style="margin-left: 20px">
+                        <input type="text" name="latitude" value="<%= event.LATITUDE%>" hidden>
+                        <input type="text" name="longitude" value="<%= event.LONGITUDE%>" hidden>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <div class="image">
+                                <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                    <input accept="image/*" type="file" name="fileImage" id="inputCoverPhoto"
+                                        style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                    <input type="hidden" id="coverPhotoUrl" name="cover_photo" value="<%- event.COVER_PHOTO%>" />
+                                    <br>
+                                    <img src="<%- event.COVER_PHOTO%>" id="coverPhotoPreview" alt="cover_photo"
+                                        style="padding-top: 20px; padding-bottom: 20px; height: 250px; width: 400px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Update Event</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal(All Going Members) -->
+<div class="modal fade" id="seeGoingModal" tabindex="-1" role="dialog" aria-labelledby="seeGoingModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seeGoingModalLabel">See All Goings</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">User Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seeGoing">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // render the image file in image view
+    const imageInputField = document.getElementById("inputCoverPhoto")
+    const preview = document.getElementById("coverPhotoPreview")
+    const logUrlInputField = document.querySelector("#coverPhotoUrl")
+    imageInputField.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+            uploadToFirebase(this.files[0], logUrlInputField, function (imageUrl) {
+                //console.log("adding image url to src")
+                preview.setAttribute('src', imageUrl);
+            });
+        }
+    });
+    function uploadToFirebase(file, logUrlInputField, onUploadSuccess) {
+            const fileName = file.name;
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate + "-" + fileName);
+            const uploadTask = spaceRef.put(file)
+                .then(function (snapshot) {
+                    //console.info("image uploaded in firebase");
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        //console.log('File available at', downloadURL);
+                        logUrlInputField.setAttribute("value", downloadURL);
+                        onUploadSuccess(downloadURL);
+                    });
+                })
+        }
+</script>
+
+<script>
+    let event = <%- JSON.stringify(event)%>;
+    let cur_user_id = <%- cur_user_id%>;
+    let event_type = "<%- event_type%>";
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: `/api/event/going/${event.EVENT_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    $(`#seeGoing`).append(
+                        `<tr style="height=50px;">
+                        <td>
+                            <a href="/api/user/" style="text-decoration: none; color: black;">${data.USER_NAME}</a></td>
+                    </tr>`)
+                })
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/event/schedule/${event.EVENT_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                     let start_time = data.START_TIME.split('.');
+                     let end_time = data.END_TIME.split('.');
+                    if (cur_user_id !== event.GROUP_ADMIN_ID) {
+                        $('#schedule').append(`<tr>
+                                                    <td>${start_time[0]}</td>
+                                                    <td>${end_time[0]}</td>
+                                                    <td>${data.DESCRIPTION}</td>
+                                                    </tr>`)
+                    }
+                    else {
+                        $('#schedule').append(`<tr>
+                                                    <td>${start_time[0]}</td>
+                                                    <td>${end_time[0]}</td>
+                                                    <td>${data.DESCRIPTION}</td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editScheduleModal${data.SCHEDULE_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editScheduleModal${data.SCHEDULE_ID}" tabindex="-1" role="dialog" aria-labelledby="editScheduleModalLabel${data.SCHEDULE_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editScheduleModalLabel${data.SCHEDULE_ID}">Edit Schedule</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/event/schedule/update/${data.SCHEDULE_ID}">
+                                                                            <input name="event_type" value="<%- event_type%>" hidden>
+                                                <div class="form-group row">
+                                                    <label for="start_time" class="col-sm-2 col-form-label">Start Time</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="datetime-local" class="form-control" id="start_time" name="start_time"
+                                                           value="${start_time[0]}" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="end_time" class="col-sm-2 col-form-label">End Time</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="datetime-local" class="form-control" id="end_time" name="end_time" value="${end_time[0]}" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="description" class="col-sm-2 col-form-label">Description</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="description"
+                                                            name="description" required value="${data.DESCRIPTION}"></input>
+                                                    </div>
+                                                </div>
+                                                <input name="event_id" value="${data.EVENT_ID}" hidden>
+                                                <button type="submit" class="btn btn-primary mb-2">Update Schedule</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="/api/event/schedule/delete/${data.SCHEDULE_ID}">
+                                                            <input name="event_id" value="${data.EVENT_ID}" hidden>
+                                                            <input name="event_type" value="${event_type}" hidden>
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                    }
+                });
+            }
+        })
+    });
+</script>
+

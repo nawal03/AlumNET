@@ -1,0 +1,30 @@
+<style>
+     .inf-content{
+        width: 50%;
+        margin-left: 260px;
+        border:1px solid #DDDDDD;
+        -webkit-border-radius:10px;
+        -moz-border-radius:10px;
+        border-radius:10px;
+        box-shadow: 7px 7px 7px rgba(0, 0, 0, 0.3);
+        padding-left: 120px;
+        margin-bottom: 30px;
+    }
+    legend{
+        font-weight: bold;
+        color: brown;
+        text-align: center;
+    }			                                                      
+</style>
+
+<legend>Curriculam Vitae of Applicants</legend>
+<% if (cvs.length === 0) {%>
+    <h5 style="text-align: center; color: gray; font-style: italic;">No one has applied yet...</h3>
+<% }%>
+<%for (cv of cvs) {%>
+    <div class="panel-body inf-content">
+        <span style="white-space: pre-line">
+            <%= cv.CV%>
+        </span>
+    </div>
+<% }%>

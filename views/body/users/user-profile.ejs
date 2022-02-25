@@ -1,0 +1,1289 @@
+<style>
+    .card-body button{
+        color: white;
+        background-color: #940031;
+    }
+    .card-body button:hover{
+        background-color: white;
+        color: #940031;
+    }
+    .card-body .editButton{
+        background-color: white;
+        color: #940031;
+    }
+</style>
+<section style="background-color: #eee;">
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="<%- user.PROFILE_PICTURE%>" alt="profile-picture" class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3"><%= user.FIRST_NAME %>
+                <%= user.LAST_NAME %></h5>
+            <div class="d-flex justify content-start">
+                <p class="text-muted mb-1"><%= user.DEPARTMENT %> <br/> Batch: <%= user.BATCH %></p><br/>
+            </div>
+            <p class="text-muted mb-1"><%= user.ABOUT_ME %></p>
+            <div class="d-flex justify-content-center mb-2" id="follow">
+            </div>
+            <div class="d-flex justify content-start">
+                <button type="button" class="dropdown-item" data-bs-toggle="modal" id="follower"
+                    data-bs-target="#followersModal"></button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="followersModal" tabindex="-1" role="dialog"
+                        aria-labelledby="followersModal" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="followersModal">Followers</h5>
+                                </div>
+                                <div class="modal-body" id="get-followers">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- <ul id="follower">
+                </ul> -->
+                <button type="button" class="dropdown-item" data-bs-toggle="modal" id="following"
+                    data-bs-target="#followingsModal"></button>
+                <!-- Modal -->
+                <div class="modal fade" id="followingsModal" tabindex="-1" role="dialog" aria-labelledby="followingsModal"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="followingsModal">
+                                    Followings
+                                </h5>
+                            </div>
+                            <div class="modal-body" id="get-followings">
+                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+                <%if (user.FACEBOOK !== null) {%>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <a class="mb-0" href="<%-user.FACEBOOK%>">Facebook Link</a>
+                </li>
+                <% }%>
+                <%if (user.LINKEDIN !==null) {%>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <a class="mb-0" href="<%- user.LINKEDIN%>">LinkedIN Link</a>
+                </li>
+                <% }%>
+                <%if (user.TWITTER !== null) {%>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <a class="mb-0" href="<%- user.TWITTER%>">Twitter Link</a>
+                </li>
+                <% }%>
+                <%if (user.GOOGLE_SCHOLAR !==null) {%>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <a class="mb-0" href="<%- user.GOOGLE_SCHOLAR%>">Google Scholar Link</a>
+                </li>
+                <% }%>
+                <%if (user.RESEARCH_GATE !== null) {%>
+                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <a class="mb-0" href="<%- user.RESEARCH_GATE%>">Research Gate Link</a>
+                </li>
+                <% }%>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <%if (cur_user_id===user.USER_ID) {%>
+            <div class=" text-right" style="margin-bottom: 10px;">
+                <a href="/api/user/edit" class="editButton">Edit Info <i class="fas fa-pen" style="margin-left: 5px;"></i></a>
+            </div>
+            <% }%>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Full Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.FIRST_NAME %> <%= user.LAST_NAME %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user.EMAIL %></p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                        <%= user.CITY %>,
+                        <% if (user.STATE !== null) {%><%= user.STATE%>, <% }%>
+                        <%= user.COUNTRY%>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <%if (user.PHONE_NO !== null) {%> 
+                <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Phone No.</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0"><%= user.PHONE_NO%></p>
+                </div>
+            </div>
+            <hr> <% }%>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Gender</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0"><%= user. GENDER%></p>
+              </div>
+            </div>
+            <hr>
+            <%if (user.DATE_OF_BIRTH !== null) {%>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Date of Birth</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <%let dates = user.DATE_OF_BIRTH.toISOString(); let date = dates.split('T')%>
+                        <p class="text-muted mb-0"><%= date[0]%></p>
+                    </div>
+                </div>
+                <hr>
+            <% }%>
+            <% if(user.HALL !== null) {%>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Hall</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                        <%= user.HALL%>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <% }%>
+            <%if (user.STUDENT_ID !== null) {%>
+            <div class="row">
+                <div class="col-sm-3">
+                    <p class="mb-0">Student ID</p>
+                </div>
+                <div class="col-sm-9">
+                    <p class="text-muted mb-0">
+                        <%= user.STUDENT_ID%>
+                    </p>
+                </div>
+            </div>
+            <hr>
+            <% }%>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-body">
+                <!-- Tabs navs -->
+                <ul class="nav nav-tabs nav-fill mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="ex2-tab-1" data-bs-toggle="tab" href="#ex2-tabs-1" role="tab"
+                            aria-controls="ex2-tabs-1" aria-selected="true" style="font-size: 16px;">Education</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-2" data-bs-toggle="tab" href="#ex2-tabs-2" role="tab"
+                            aria-controls="ex2-tabs-2" aria-selected="false" style="font-size: 16px;">Work Experience</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-3" data-bs-toggle="tab" href="#ex2-tabs-3" role="tab"
+                            aria-controls="ex2-tabs-3" aria-selected="false" style="font-size: 16px;">Achievements</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-3" data-bs-toggle="tab" href="#ex2-tabs-4" role="tab" aria-controls="ex2-tabs-4"
+                            aria-selected="false" style="font-size: 16px;">Publications</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-3" data-bs-toggle="tab" href="#ex2-tabs-5" role="tab" aria-controls="ex2-tabs-5"
+                            aria-selected="false" style="font-size: 16px;">Others</a>
+                    </li>
+                </ul>
+                <!-- Tabs navs -->
+                
+                <!-- Tabs content -->
+                <div class="tab-content" id="ex2-content">
+                    <div class="tab-pane fade show active" id="ex2-tabs-1" role="tabpanel" aria-labelledby="ex2-tab-1">
+                        <%if (cur_user_id===user.USER_ID) {%>
+                            <!-- Button trigger modal -->
+                            <div class=" text-right" style="margin-bottom: 10px;">
+                            <button type="button" class="btn btn-primary"
+                            data-bs-toggle="modal" data-bs-target="#addEducationModal">Add
+                                <i class="fas fa-plus"></i></button></div>
+                            <%}%>
+                            <!-- Modal -->
+                            <div class="modal fade" id="addEducationModal" tabindex="-1" role="dialog" aria-labelledby="addEducationModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addEducationModalLabel">Add Education</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/education">
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Institute *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="institute" name="institute" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Field of Study</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="field_of_study" name="field_of_study"></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Degree *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="degree" name="degree" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Grade</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="grade" name="grade"></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Start Date *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="date" class="form-control" id="start_date" name="start_date" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">End Date</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="date" class="form-control" id="end_date" name="end_date"></input>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <table class="table table-light">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Institute</th>
+                                    <th scope="col">Field of Study</th>
+                                    <th scope="col">Degree</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <%if (cur_user_id===user.USER_ID) {%>
+                                        <th colspan="2">Action</th>
+                                        <%}%>
+                                </tr>
+                            </thead>
+                            <tbody id="education">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-2" role="tabpanel" aria-labelledby="ex2-tab-2">
+                        <%if (cur_user_id===user.USER_ID) {%>
+                            <!-- Button trigger modal -->
+                            <div class=" text-right" style="margin-bottom: 10px;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addWorkModal">Add
+                                    <i class="fas fa-plus"></i></button>
+                            </div>
+                            <%}%>
+                            <!-- Modal -->
+                            <div class="modal fade" id="addWorkModal" tabindex="-1" role="dialog" aria-labelledby="addWorkModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addWorkModalLabel">Add Work Experience</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/work_experience">
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Organization *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="organization" name="organization" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Employment Type *</label>
+                                                    <div class="col-sm-10">
+                                                        <select class="form-select" aria-label="Default select example" name="employment_type" required>
+                                                            <option selected value="Part-Time">Part-Time</option>
+                                                            <option value="Full-Time">Full-Time</option>
+                                                            <option value="Self-Employed">Self-Employed</option>
+                                                            <option value="Internship">Internship</option>
+                                                            <option value="Freelance">Freelance</option>
+                                                            <option value="Contract">Contract</option>
+                                                            <option value="Seasonal">Seasonal</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Designation *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="designation" name="designation" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Start Date *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="date" class="form-control" id="start_date" name="start_date" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">End Date</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="date" class="form-control" id="end_date" name="end_date"></input>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <table class="table table-light">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Organization</th>
+                                    <th scope="col">Employment Type</th>
+                                    <th scope="col">Designation</th>
+                                    <th scope="col">Start Date</th>
+                                    <th scope="col">End Date</th>
+                                    <%if (cur_user_id===user.USER_ID) {%>
+                                        <th colspan="2">Action</th>
+                                        <%}%>
+                                </tr>
+                            </thead>
+                            <tbody id="work_experience">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-3" role="tabpanel" aria-labelledby="ex2-tab-3">
+                        <%if (cur_user_id===user.USER_ID) {%>
+                            <!-- Button trigger modal -->
+                            <div class=" text-right" style="margin-bottom: 10px;">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAchievementModal">Add
+                                    <i class="fas fa-plus"></i></button>
+                            </div>
+                            <%}%>
+                            <!-- Modal -->
+                            <div class="modal fade" id="addAchievementModal" tabindex="-1" role="dialog" aria-labelledby="addAchievementModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="addAchievementModalLabel">Add Achievement</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/achievement">
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Achievement Name *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="achievement_name"
+                                                            name="achievement_name" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Position</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="position" name="position"></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Achievement Date *</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="date" class="form-control" id="achievement_date"
+                                                            name="achievement_date" required></input>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label for="hall" class="col-sm-2 col-form-label">Organized By</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" id="organized_by" name="organized_by"></input>
+                                                    </div>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-light">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Achievement Name</th>
+                                        <th scope="col">Position</th>
+                                        <th scope="col">Organized By</th>
+                                        <th scope="col">Date</th>
+                                        <%if (cur_user_id===user.USER_ID) {%>
+                                            <th colspan="2">Action</th>
+                                            <%}%>
+                                    </tr>
+                                </thead>
+                                <tbody id="achievement">
+                                </tbody>
+                            </table>
+                            
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-4" role="tabpanel" aria-labelledby="ex2-tab-4">
+                        <%if (cur_user_id===user.USER_ID) {%>
+                            <div class=" text-right" style="margin-bottom: 10px;">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPublicationModal">
+                                Add<i class="fas fa-plus"></i></button>
+                                </div>
+                            <%}%>
+                                <!-- Modal -->
+                                <div class="modal fade" id="addPublicationModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="addPublicationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addPublicationModalLabel">Add Publication</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" action="/api/publication">
+                                                    <div class="form-group row">
+                                                        <label for="hall" class="col-sm-2 col-form-label">Title *</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="title" name="title" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="hall" class="col-sm-2 col-form-label">Authors *</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="authors" name="authors" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="hall" class="col-sm-2 col-form-label">Journal *</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="journal" name="journal" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="hall" class="col-sm-2 col-form-label">Publication Date *</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="date" class="form-control" id="publication_date"
+                                                                name="publication_date" required></input>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label for="hall" class="col-sm-2 col-form-label">PDF Link</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text" class="form-control" id="pdf_link" name="pdf_link"></input>
+                                                        </div>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-light">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Authors</th>
+                                            <th scope="col">Journal</th>
+                                            <th scope="col">Publication Date</th>
+                                            <th scope="col">PDF Link</th>
+                                            <%if (cur_user_id===user.USER_ID) {%>
+                                                <th colspan="2">Action</th>
+                                                <%}%>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="publication">
+                                    </tbody>
+                                </table>
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-5" role="tabpanel" aria-labelledby="ex2-tab-5">
+                        <%if (cur_user_id===user.USER_ID) {%>
+                            <div class=" text-right" style="margin-bottom: 10px;">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addSkillModal">
+                                    Add<i class="fas fa-plus"></i></button>
+                            </div>
+                            <%}%>
+                                <!-- Modal -->
+                                <div class="modal fade" id="addSkillModal" tabindex="-1" role="dialog" aria-labelledby="addSkillModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addSkillModalLabel">Add Skill</h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="post" action="/api/skill">
+                                                    <input type="text" class="form-control" id="skill" name="skill" required></input>
+                                                    <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table table-light">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Skills</th>
+                                            <%if (cur_user_id===user.USER_ID) {%>
+                                                <th scope="col">Edit</th>
+                                                <th scope="col">Delete</th>
+                                                <%}%>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="skills">
+                                    </tbody>
+                                </table>
+
+                                <%if (cur_user_id===user.USER_ID) {%>
+                                    <div class=" text-right" style="margin-bottom: 10px;">
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addInterestModal">
+                                            Add<i class="fas fa-plus"></i></button>
+                                    </div>
+                                    <%}%>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="addInterestModal" tabindex="-1" role="dialog" aria-labelledby="addInterestModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="addInterestModalLabel">Add Interest</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form method="post" action="/api/interest">
+                                                            <input type="text" class="form-control" id="interest" name="interest" required></input>
+                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <table class="table table-light">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Interests</th>
+                                                    <%if (cur_user_id===user.USER_ID) {%>
+                                                        <th scope="col">Edit</th>
+                                                        <th scope="col">Delete</th>
+                                                        <%}%>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="interests">
+                                            </tbody>
+                                        </table>
+
+                                        <%if (cur_user_id===user.USER_ID) {%>
+                                            <div class=" text-right" style="margin-bottom: 10px;">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addResearchInterestModal">
+                                                    Add<i class="fas fa-plus"></i></button>
+                                            </div>
+                                            <%}%>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="addResearchInterestModal" tabindex="-1" role="dialog"
+                                                    aria-labelledby="addResearchInterestModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="addResearchInterestModalLabel">Add Research Interest</h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="post" action="/api/research_interest">
+                                                                    <input type="text" class="form-control" id="research_interest" name="research_interest" required></input>
+                                                                    <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <table class="table table-light">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">Research Interests</th>
+                                                            <%if (cur_user_id===user.USER_ID) {%>
+                                                                <th scope="col">Edit</th>
+                                                                <th scope="col">Delete</th>
+                                                                <%}%>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="research-interests">
+                                                    </tbody>
+                                                </table>
+                    </div>
+                </div>
+                <!-- Tabs content -->
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+    let user = <%- JSON.stringify(user)%>;
+    let cur_user_id = <%- cur_user_id%>;
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            url: `/api/follow/follower/count?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $('#follower').append(`Followers: ${result.FOLLOWER_COUNT}`);
+            }
+        })
+        $.ajax({
+            type: "GET",
+            url: `/api/follow/follower?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                $('#get-followers').append(`<ul style="padding-bottom: 20px; text-align:left; margin-left: 20px">
+                    <img src="${data.PROFILE_PICTURE}" width="30" class="user-img rounded-circle mr-2">
+                    <a href="/api/user/${data.USER_ID}">
+                                    ${data.NAME}
+                                </a></ul>`);
+               })
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/follow/following/count?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $('#following').append(`Following: ${result.FOLLOWING_COUNT}`)
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/follow/following?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    $('#get-followings').append(`<ul style="padding-bottom: 20px; text-align:left; margin-left: 20px">
+                        <img src="${data.PROFILE_PICTURE}" width="30" class="user-img rounded-circle mr-2">
+                        <a href="/api/user/${data.USER_ID}">
+                                    ${data.NAME}
+                                </a></ul>`);
+                })
+            }
+        })
+
+        $.ajax({
+                type: "GET",
+                url: `/api/follow/${user.USER_ID}`,
+                success: function (result) {
+                    if (cur_user_id !== user.USER_ID && result.COUNT === 0) {
+                        $('#follow').append(
+                            `<form action = "/api/follow/${user.USER_ID}" method = "post">
+                                    <button type="submit" class="btn btn-primary" style="background-color: #940031; color:white;" >Follow</button>
+                                </form>`
+                        )
+                    }
+                    else if (cur_user_id !== user.USER_ID && result.COUNT === 1) {
+                        $('#follow').append(
+                            `<form action = "/api/follow/delete/${user.USER_ID}" method = "post">
+                                    <button type="submit" class="btn btn-primary" style="background-color: #940031; color:white;" >Unfollow</button>
+                                </form>`
+                        )
+                    }
+                }
+            })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/education?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let start_date = data.START_DATE.split('T');
+                    let end_date = ['now'];
+                    if (data.END_DATE !== null)
+                        end_date = data.END_DATE.split('T');
+                    let grade = "---";
+                    if(data.GRADE !== null)
+                        grade = data.GRADE;
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#education').append(`<tr>
+                                                    <td>${data.INSTITUTE}</td>
+                                                    <td>${data.FIELD_OF_STUDY}</td>
+                                                    <td>${data.DEGREE}</td>
+                                                    <td>${grade}</td>
+                                                    <td>${start_date[0]}</td>
+                                                    <td>${end_date[0]}</td>
+                                                    <td></tr>`)
+                    }
+                    else {
+                        $('#education').append(`<tr>
+                                                    <td>${data.INSTITUTE}</td>
+                                                    <td>${data.FIELD_OF_STUDY}</td>
+                                                    <td>${data.DEGREE}</td>
+                                                    <td>${grade}</td>
+                                                    <td>${start_date[0]}</td>
+                                                    <td>${end_date[0]}</td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEducationModal${data.EDUCATION_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editEducationModal${data.EDUCATION_ID}" tabindex="-1" role="dialog" aria-labelledby="editInterestModalLabel${data.EDUCATION_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editEducationModalLabel${data.EDUCATION_ID}">Edit Education</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/education/edit/${data.EDUCATION_ID}">
+                                                                            <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">Institute *</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="text" class="form-control" id="institute" name="institute" value="${data.INSTITUTE}" required></input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">Field of Study</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="text" class="form-control" id="field_of_study" name="field_of_study" value="${data.FIELD_OF_STUDY}"></input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">Degree *</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="text" class="form-control" id="degree" name="degree" value="${data.DEGREE}" required></input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">Grade</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="text" class="form-control" id="grade" name="grade" value="${data.GRADE}"></input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">Start Date *</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="date" class="form-control" id="start_date" name="start_date" selected value=${start_date[0]} required></input>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group row">
+                                                                            <label for="hall" class="col-sm-2 col-form-label">End Date</label>
+                                                                            <div class="col-sm-10">
+                                                                                <input type="date" class="form-control" id="end_date" name="end_date" selected value=${end_date[0]}></input>
+                                                                            </div>
+                                                                        </div>
+                                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="education/delete/${data.EDUCATION_ID}">
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/work_experience?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let start_date = data.START_DATE.split('T');
+                    let end_date = ['now'];
+                    if(data.END_DATE !== null)
+                        end_date = data.END_DATE.split('T');
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#work_experience').append(`<tr>
+                                                    <td>${data.ORGANIZATION}</td>
+                                                    <td>${data.EMPLOYMENT_TYPE}</td>
+                                                    <td>${data.DESIGNATION}</td>
+                                                    <td>${start_date[0]}</td>
+                                                    <td>${end_date[0]}</td>
+                                                    <td></tr>`)
+                    }
+                    else {
+                        $('#work_experience').append(`<tr>
+                                                    <td>${data.ORGANIZATION}</td>
+                                                    <td>${data.EMPLOYMENT_TYPE}</td>
+                                                    <td>${data.DESIGNATION}</td>
+                                                    <td>${start_date[0]}</td>
+                                                    <td>${end_date[0]}</td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editWorkModal${data.WORK_EXPERIENCE_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editWorkModal${data.WORK_EXPERIENCE_ID}" tabindex="-1" role="dialog" aria-labelledby="editWorkModalLabel${data.WORK_EXPERIENCE_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editWorkModalLabel${data.WORK_EXPERIENCE_ID}">Edit Work Experience</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/work_experience/edit/${data.WORK_EXPERIENCE_ID}">
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Organization *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="organization" name="organization" value="${data.ORGANIZATION} required"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Employment Type *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <select class="form-select" aria-label="Default select example" name="employment_type" value="${data.EMPLOYMENT_TYPE} required">
+                                                                                        <option selected value="Part-Time">Part-Time</option>
+                                                                                        <option value="Full-Time">Full-Time</option>
+                                                                                        <option value="Self-Employed">Self-Employed</option>
+                                                                                        <option value="Internship">Internship</option>
+                                                                                        <option value="Freelance">Freelance</option>
+                                                                                        <option value="Contract">Contract</option>
+                                                                                        <option value="Seasonal">Seasonal</option>
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Designation *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="designation" name="designation" value="${data.DESIGNATION}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Start Date *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="date" class="form-control" id="start_date" name="start_date" value=${start_date[0]} required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">End Date</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="date" class="form-control" id="end_date" name="end_date" value=${end_date[0]}></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="work_experience/delete/${data.WORK_EXPERIENCE_ID}">
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/achievement?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let position = "---", organized_by = "---";
+                    if(data.POSITION !== null)
+                        position = data.POSITION;
+                    if(data.ORGANIZED_BY !== null)
+                        organized_by = data.ORGANIZED_BY;
+                    let achievement_date = data.ACHIEVEMENT_DATE.split("T");
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#achievement').append(`<tr>
+                                                    <td>${data.ACHIEVEMENT_NAME}</td>
+                                                    <td>${position}</td>
+                                                    <td>${organized_by}</td>
+                                                    <td>${achievement_date[0]}</td>
+                                                    <td></tr>`)
+                    }
+                    else {
+                        $('#achievement').append(`<tr>
+                                                    <td>${data.ACHIEVEMENT_NAME}</td>
+                                                    <td>${position}</td>
+                                                    <td>${organized_by}</td>
+                                                    <td>${achievement_date[0]}</td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editAchievementModal${data.ACHIEVEMENT_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editAchievementModal${data.ACHIEVEMENT_ID}" tabindex="-1" role="dialog" aria-labelledby="editAchievementModalLabel${data.ACHIEVEMENT_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editAchievementModalLabel${data.ACHIEVEMENT_ID}">Edit Achievement</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/achievement/edit/${data.ACHIEVEMENT_ID}">
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Achievement Name *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="achievement_name" name="achievement_name" value="${data.ACHIEVEMENT_NAME} required"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Position</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="position" name="position" value="${data.POSITION}"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Achievement Date *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="date" class="form-control" id="start_date" name="achievement_date" value=${achievement_date[0]} required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Organized By</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="organized_by" name="organized_by" value="${data.ORGANIZED_BY}"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="achievement/delete/${data.ACHIEVEMENT_ID}">
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/publication?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let publication_date = data.PUBLICATION_DATE.split('T');
+                    if (cur_user_id !== user.USER_ID) {
+                        if(data.PDF_LINK != null) {
+                            $('#publication').append(`<tr>
+                                                    <td>${data.TITLE}</td>
+                                                    <td>${data.AUTHORS}</td>
+                                                    <td>${data.JOURNAL}</td>
+                                                    <td>${publication_date[0]}</td>
+                                                    <td><a href="/${data.PDF_LINK}">${data.PDF_LINK}</a></td>
+                                                    <td></tr>`)
+                        }
+                        else {
+                            $('#publication').append(`<tr>
+                                                    <td>${data.TITLE}</td>
+                                                    <td>${data.AUTHORS}</td>
+                                                    <td>${data.JOURNAL}</td>
+                                                    <td>${publication_date[0]}</td>
+                                                    <td>---</td>
+                                                    <td></tr>`)
+                        }
+                    }
+                    else {
+                        if (data.PDF_LINK != null) {
+                            $('#publication').append(`<tr>
+                                                    <td>${data.TITLE}</td>
+                                                    <td>${data.AUTHORS}</td>
+                                                    <td>${data.JOURNAL}</td>
+                                                    <td>${publication_date[0]}</td>
+                                                    <td><a href="/${data.PDF_LINK}">${data.PDF_LINK}</a></td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPublicationModal${data.PUBLICATION_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editPublicationModal${data.PUBLICATION_ID}" tabindex="-1" role="dialog" aria-labelledby="editPublicationModalLabel${data.PUBLICATION_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editPublicationModalLabel${data.PUBLICATION_ID}">Edit Publication</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/publication/edit/${data.PUBLICATION_ID}">
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Title *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="title"
+                                                                                        name="title" value="${data.TITLE}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Authors *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="authors" name="authors" value="${data.AUTHORS}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Journal *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="journal" name="journal" value="${data.JOURNAL}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Publication Date *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="date" class="form-control" id="publication_date" name="publication_date" value=${publication_date[0]} required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">PDF Link</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="pdf_link" name="pdf_link" value="${data.PDF_LINK}"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="publication/delete/${data.PUBLICATION_ID}">
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                        }
+                        else {
+                            $('#publication').append(`<tr>
+                                                    <td>${data.TITLE}</td>
+                                                    <td>${data.AUTHORS}</td>
+                                                    <td>${data.JOURNAL}</td>
+                                                    <td>${publication_date[0]}</td>
+                                                    <td>---</td>
+                                                    <td>
+                                                        <!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editPublicationModal${data.PUBLICATION_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+
+                                                        <!-- Modal -->
+                                                        <div class="modal fade" id="editPublicationModal${data.PUBLICATION_ID}" tabindex="-1" role="dialog" aria-labelledby="editPublicationModalLabel${data.PUBLICATION_ID}" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="editPublicationModalLabel${data.PUBLICATION_ID}">Edit Publication</h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <form method="post" action="/api/publication/edit/${data.PUBLICATION_ID}">
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Title *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="title"
+                                                                                        name="title" value="${data.TITLE}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Authors *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="authors" name="authors" value="${data.AUTHORS}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Journal *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="journal" name="journal" value="${data.JOURNAL}" required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">Publication Date *</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="date" class="form-control" id="publication_date" name="publication_date" value=${publication_date[0]} required></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label for="hall" class="col-sm-2 col-form-label">PDF Link</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input type="text" class="form-control" id="pdf_link" name="pdf_link" value="${data.PDF_LINK}"></input>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <form method="post" action="publication/delete/${data.PUBLICATION_ID}">
+                                                            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                                                        </form>
+                                                    </td>
+                                                </tr>`)
+                        }
+                        
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/skill?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#skills').append(`<tr><td> ${data.SKILL}</td></tr>`)
+                    }
+                    else {
+                        $('#skills').append(`<tr>
+                                                    <td>${data.SKILL}</td>
+                                                    <td><!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editSkillModal${data.SKILL_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="editSkillModal${data.SKILL_ID}" tabindex="-1" role="dialog" aria-labelledby="editSkillModalLabel${data.SKILL_ID}" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editSkillModalLabel${data.SKILL_ID}">Edit Skill</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/skill/edit/${data.SKILL_ID}">
+                                                <input type="text" class="form-control" id="skill" name="skill" value="${data.SKILL}" required></input>
+                                                <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+                            <td>
+                            <form method="post" action="skill/delete/${data.SKILL_ID}">
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                            </form>
+                            </td></tr>`
+
+                        )
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/interest?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#interests').append(`<tr><td>${data.INTEREST}</td></tr>`)
+                    }
+                    else {
+                        $('#interests').append(`<tr>
+                                                    <td>${data.INTEREST}</td>
+                                                    <td><!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editInterestModal${data.INTEREST_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="editInterestModal${data.INTEREST_ID}" tabindex="-1" role="dialog" aria-labelledby="editInterestModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="editinterestModalLabel">Edit Interest</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="/api/interest/edit/${data.INTEREST_ID}">
+                                                <input type="text" class="form-control" id="interest" name="interest" value="${data.INTEREST}" required></input>
+                                                <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+                            
+                            </td>
+                            <td>
+                            <form method="post" action="interest/delete/${data.INTEREST_ID}">
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                            </form>
+                            </td></tr>`
+                        )
+                    }
+                });
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/research_interest?user_id=${user.USER_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    if (cur_user_id !== user.USER_ID) {
+                        $('#research-interests').append(`<tr><td>${data.RESEARCH_INTEREST}</td></tr>`)
+                    }
+                    else {
+                        $('#research-interests').append(`<tr>
+                                                    <td>${data.RESEARCH_INTEREST}</td>
+                                                    <td><!-- Button trigger modal -->
+                                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editResearchInterestModal${data.RESEARCH_INTEREST_ID}">
+                                                            <i class="fas fa-pen"></i></button>
+                            <!-- Modal -->
+                            <!-- Modal -->
+                    <div class="modal fade" id="editResearchInterestModal${data.RESEARCH_INTEREST_ID}" tabindex="-1" role="dialog" aria-labelledby="editInterestModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editResearchInterestModalLabel">Edit Research Interest</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="/api/research_interest/edit/${data.RESEARCH_INTEREST_ID}">
+                                        <input type="text" class="form-control" id="research_interest" name="research_interest" value="${data.RESEARCH_INTEREST}" required></input>
+                                        <button type="submit" class="btn btn-primary mb-2">Save changes</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                            
+                            </td>
+                            <td>
+                            <form method="post" action="research_interest/delete/${data.RESEARCH_INTEREST_ID}">
+                                <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-trash"></i></button>
+                            </form>
+                            </td></tr>`
+                        )
+                    }
+                });
+            }
+        })
+
+    });
+</script>

@@ -1,0 +1,198 @@
+<style>
+    img{
+        height: 250px;
+        width: 400;
+        margin-top: 10px;
+    }
+    legend{
+        text-align: center; 
+        margin-bottom: 20px;
+        font-size: 32px; 
+        font-weight: bold; 
+        color: brown;
+    }
+    .search_btn{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    margin-bottom: 5px;
+    
+    }
+    .search_btn:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .group-name{
+        color: black;
+        text-decoration: none;
+    }
+    .group-name:hover{
+        text-decoration: none;
+    }
+    button{
+        margin-right: 10px;
+    }
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="container">
+    <div class="row">
+        <h2
+            style="margin-left: 250px; margin-bottom: 30px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+            <%= title%>
+        </h2>
+        <div class="col-md-12">
+            <div class="row">
+                <div id="content" class="content col-8">
+                    <%if (groups.length === 0) {%>
+                        <h5 style="margin-left: 250px; color: gray; font-style: italic;">No groups to show...</h3>    
+                    <% }%>
+                    <% for (group of groups) { %>
+                        <div class="card" style="width: 95%; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; box-shadow: 3px 3px rgb(226, 226, 226);">
+                            <img src="<%- group.COVER_PHOTO%>" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <a href="/api/group/<%- group.GROUP_ID%>" class="group-name">
+                                <h5 class="card-title"><%= group.GROUP_NAME%></h5></a>
+                                <p class="card-text"><%= group.DESCRIPTION%></p>
+                                <span class="text-muted">Members: <%= group.GROUP_MEMBER_COUNT %></span>
+                                <br/>
+                                <% if (group.ADMIN_ID === cur_user_id ) {%>
+                                    <span class="text-muted" style="margin-bottom: 10px;">You're an ADMIN of this group</span>
+                                    <br />
+                                    <div class="d-flex justify-content-end">
+                                        <a href="/api/group/<%- group.GROUP_ID%>" class="btn btn-primary mb-2">Visit Group</a>
+                                    </div>
+                                <% } else if (group.IS_GROUP_MEMBER === 'YES') {%>
+                                <span class="text-muted" style="margin-bottom: 10px;">You're a member of this group</span>
+                                <br />
+                                <div class="d-flex justify-content-end">
+                                    <form method="post" action="/api/group_member/remove/group/<%- group.GROUP_ID %>">
+                                        <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Leave Group</button>
+                                    </form>
+                                    <a href="/api/group/<%- group.GROUP_ID%>" class="btn btn-primary mb-2">Visit Group</a>
+                                </div>
+                                <%} else if (group.IS_PENDING_MEMBER === 'NO') {%>
+                                    <div class="d-flex justify-content-end">
+                                        <form method="post" action="/api/group_member/pending/<%- group.GROUP_ID %>">
+                                            <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Join Group</button>
+                                        </form>
+                                        <a href="/api/group/<%- group.GROUP_ID%>" class="btn btn-primary mb-2">Visit Group</a>
+                                    </div>
+                                <% } else {%>
+                                    <span class="text-muted" style="margin-bottom: 10px;">Membership Status: Pending</span>
+                                    <br />
+                                    <div class="d-flex justify-content-end">
+                                        <form method="post" action="/api/group_member/pending/remove/<%- group.GROUP_ID %>">
+                                            <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Delete Join Request</button>
+                                        </form>
+                                        <a href="/api/group/<%- group.GROUP_ID%>" class="btn btn-primary mb-2">Visit Group</a>
+                                    </div>
+                                <% }%>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+                <div class="content col-3 text-right" style="margin-left: 40px;">
+                    <form action="/api/group/search">
+                        <input type="text" placeholder="Search.." name="search" style="width: 175px; height: 35px;">
+                        <button type="submit" class="btn btn-primary search_btn"><i class="fas fa-search"></i></button>
+                    </form>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal"
+                        data-bs-target="#createGroupModal" style="width: 220px;margin-top: 10px;">
+                        Create a New Group
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createGroupModalLabel">Create New Group</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/api/group">
+                    <div class="form-group row">
+                        <label for="group_name" class="form-label">Group Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="group_name" name="group_name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description" required></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <div class="image">
+                                <label style="float: left; padding-left: 50px; padding-top: 20px;">Cover Photo:</label>
+                                <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                    <input accept="image/*" type="file" name="fileImage" id="inputCoverPhoto"
+                                        style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                    <input type="hidden" id="coverPhotoUrl" name="cover_photo" value="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fgroups-default-cover-photo.png?alt=media&token=cda807b8-ae12-44f5-99c5-88c32fd29dbd" />
+                                    <br>
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fgroups-default-cover-photo.png?alt=media&token=cda807b8-ae12-44f5-99c5-88c32fd29dbd" id="coverPhotoPreview" alt="cover_photo"
+                                        style="padding-top: 20px; padding-bottom: 20px; width: 400px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Create Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // render the image file in image view
+    const imageInputField = document.getElementById("inputCoverPhoto")
+    const preview = document.getElementById("coverPhotoPreview")
+    const logUrlInputField = document.querySelector("#coverPhotoUrl")
+    imageInputField.addEventListener("change", function () {
+        //console.log("image selected for logo")
+        if (this.files && this.files[0]) {
+            uploadToFirebase(this.files[0], logUrlInputField, function (imageUrl) {
+                //console.log("adding image url to src")
+                preview.setAttribute('src', imageUrl);
+            });
+        }
+    });
+    function uploadToFirebase(file, logUrlInputField, onUploadSuccess) {
+            const fileName = file.name;
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate + "-" + fileName);
+            const uploadTask = spaceRef.put(file)
+                .then(function (snapshot) {
+                    //console.info("image uploaded in firebase");
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        //console.log('File available at', downloadURL);
+                        logUrlInputField.setAttribute("value", downloadURL);
+                        onUploadSuccess(downloadURL);
+                    });
+                })
+        }
+</script>

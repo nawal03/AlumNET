@@ -1,0 +1,177 @@
+<style>
+    .scrolling-wrapper{
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .card-block{
+        height: 280px;
+        width: 320px;
+        border: none;
+        border-radius: 12px;
+        box-shadow: 3px 3px 3px 3px rgb(221, 220, 220);
+        margin-bottom: 30px;
+    }
+    .card-img-top {
+        height: 125px;
+        border-top-left-radius: 12px;
+        border-top-right-radius: 12px;
+    }
+    .card-title a{
+        color: black;
+        text-decoration: none;
+    }
+    legend {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+        color: brown;
+    }
+
+    button {
+        margin-right: 10px;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="row d-flex justify-content-center">
+    <legend>
+        <%= title%>
+    </legend>
+    <div class="container-fluid">
+        <h3>Co-curricular Events</h3>
+        <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2" id="co-curricular" style="margin-bottom: 40px;">
+        </div>
+        <h3>Reunions</h3>
+        <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2" id="reunion" style="margin-bottom: 40px;">
+        </div>
+        <h3>Seminars</h3>
+        <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2" id="seminar" style="margin-bottom: 40px;">
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/api/co_curricular/past",
+            success: function (result) {
+                $.map(result, function (event, i) {
+                    if (result.length === 0) {
+                        $('#co-curricular').append(
+                            `<h5 style="text-align: center; color: gray; font-style: italic;">No events to show...</h5>`)
+                    }
+                    else {
+                        let date = event.EVENT_DATE.split("T");
+                        $('#co-curricular').append(
+                            `<div class="col-4">
+                                <div class="card card-block" >
+                                    <div class="card-title">
+                                        <img src="${event.COVER_PHOTO}" class="card-img-top" alt="cover-photo">
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="/api/co_curricular/${event.EVENT_ID}" class="group-name" style="color: black; text-decoration:none">
+                                            <h5 class="card-title">
+                                                ${event.EVENT_NAME}
+                                            </h5>
+                                        </a>
+                                        <span class="text-muted">Event Date: ${date[0]}</span><br /><br/>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="/api/co_curricular/${event.EVENT_ID}" class="btn btn-primary mb-2">See Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+                    }
+
+                })
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: "/api/reunion/past",
+            success: function (result) {
+                $.map(result, function (event, i) {
+                    if (result.length === 0) {
+                        $('#reunion').append(
+                            `<h5 style="text-align: center; color: gray; font-style: italic;">No events to show...</h5>`)
+                    }
+                    else {
+                        let date = event.EVENT_DATE.split("T");
+                        $('#reunion').append(
+                            `<div class="col-4">
+                                <div class="card card-block" >
+                                    <div class="card-title">
+                                        <img src="${event.COVER_PHOTO}" class="card-img-top" alt="...">
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="/api/reunion/${event.EVENT_ID}" class="group-name" style="color: black; text-decoration:none">
+                                            <h5 class="card-title">
+                                                ${event.EVENT_NAME}
+                                            </h5>
+                                        </a>
+                                        <span class="text-muted">Event Date: ${date[0]}</span>
+                                        <br /><br/>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="/api/reunion/${event.EVENT_ID}" class="btn btn-primary mb-2">See Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+                    }
+
+                })
+            }
+        })
+
+            $.ajax({
+            type: "GET",
+            url: "/api/seminar/past",
+            success: function (result) {
+                $.map(result, function (event, i) {
+                    if (result.length === 0) {
+                        $('#seminar').append(
+                            `<h5 style="text-align: center; color: gray; font-style: italic;">No events to show...</h5>`)
+                    }
+                    else {
+                        let date = event.EVENT_DATE.split("T");
+                        $('#seminar').append(
+                            `<div class="col-4">
+                                <div class="card card-block" >
+                                    <div class="card-title">
+                                        <img src="${event.COVER_PHOTO}" class="card-img-top" alt="...">
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="/api/seminar/${event.EVENT_ID}" class="group-name" style="color: black; text-decoration:none">
+                                            <h5 class="card-title">
+                                                ${event.EVENT_NAME}
+                                            </h5>
+                                        </a>
+                                        <span class="text-muted">Event Date: ${date[0]}</span>
+                                        <br /><br/>
+                                        <div class="d-flex justify-content-end">
+                                            <a href="/api/seminar/${event.EVENT_ID}" class="btn btn-primary mb-2">See Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`)
+                    }
+
+                })
+            }
+        })
+
+    });
+</script>

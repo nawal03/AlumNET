@@ -1,0 +1,801 @@
+<style>
+    #co-curricular-map {
+        margin-left: 50px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 300px;
+    }
+    #reunion-map {
+        margin-left: 50px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 300px;
+    }
+    #seminar-map {
+        margin-left: 50px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 300px;
+    }
+    img {
+        height: 400px;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:disabled{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-center">
+                    <img src="<%- group.COVER_PHOTO%>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <%= group.GROUP_NAME%>
+                        </h2>
+                        <p class="card-text">
+                            <%= group.DESCRIPTION%>
+                        </p>
+                        <span class="text-muted">Members: <%= group.GROUP_MEMBER_COUNT %></span>
+                        <br />
+                        <% if (group.ADMIN_ID===cur_user_id ) {%>
+                            <div class="d-flex justify-content-end">
+                                <div class="dropdown" style="margin-right: 10px;">
+                                    <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Group Events
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#addEventModal">
+                                            Add Event
+                                        </button>
+                                        <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#groupEventsModal">
+                                            See Group Events
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="dropdown">
+                                    <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        Group Settings
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#updateGroupModal">
+                                            Edit Group Info
+                                        </button>
+                                        <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#pendingMembersModal">
+                                            Pending Requests
+                                        </button>
+                                        <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                            data-bs-target="#allMembersModal">
+                                            All Group Members
+                                        </button>
+                                        <form method="post" action="/api/group/delete/<%- group.GROUP_ID %>">
+                                            <button type="submit" class="dropdown-item" style="margin-right: 5px;"
+                                                onclick="return confirm('Are you sure you want to delete this group?');">Delete Group</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } else if (group.IS_GROUP_MEMBER==='YES' ) {%>
+                                <span class="text-muted" style="margin-bottom: 10px;">You're a member of this group</span>
+                                <br />
+                                <div class="d-flex justify-content-end">
+                                    <div class="dropdown" style="margin-right: 10px;">
+                                        <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
+                                            aria-haspopup="true" aria-expanded="false">
+                                            Group Events
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#updateGroupModal">
+                                                See Group Events
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary mb-2 dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Group Settings
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <button style="margin-right: 5px;" type="button" class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#allMembersModal">
+                                                All Group Members
+                                            </button>
+                                            <form method="post" action="/api/group_member/remove/group/<%- group.GROUP_ID %>">
+                                                <button type="submit" class="dropdown-item" style="margin-right: 5px;" 
+                                                onclick="return confirm('Are you sure you want to leave this group?');">Leave
+                                                    Group</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <%} else if (group.IS_PENDING_MEMBER==='NO' ) {%>
+                                    <div class="d-flex justify-content-end">
+                                        <form method="post" action="/api/group_member/pending/<%- group.GROUP_ID %>">
+                                            <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Join
+                                                Group</button>
+                                        </form>
+                                        
+                                    </div>
+                                    <% } else {%>
+                                        <span class="pull-right text-muted" style="margin-bottom: 10px;">Membership Status:
+                                            Pending</span>
+                                        <br />
+                                        <div class="d-flex justify-content-end">
+                                            <form method="post" action="/api/group_member/pending/remove/<%- group.GROUP_ID %>">
+                                                <button type="submit" class="btn btn-primary mb-2" style="margin-right: 5px;">Delete
+                                                    Join Request</button>
+                                            </form>
+                                            
+                                        </div>
+                                        <% }%>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<%if (group.IS_GROUP_MEMBER==='YES' ) {%>
+<div class="container py-4">
+    <div class="row">
+        <div class="col-lg-12">
+            <%- include ('../posts/group-posts')%>
+        </div>
+    </div>
+</div>
+<% }%>
+
+<!-- Modal (Group info modal) -->
+<div class="modal fade" id="updateGroupModal" tabindex="-1" role="dialog" aria-labelledby="updateGroupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateGroupModalLabel">Edit Group Info</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="/api/group/<%- group.GROUP_ID %>">
+                    <div class="form-group row">
+                        <label for="group_name" class="form-label">Group Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="group_name" name="group_name" value="<%= group.GROUP_NAME%>" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="description" class="form-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="description" name="description" required><%= group.DESCRIPTION%></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-10">
+                            <div class="image">
+                                <div class="imgprev"
+                                    style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                    <input accept="image/*" type="file" name="fileImage" id="inputCoverPhoto"
+                                        style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                    <input type="hidden" id="coverPhotoUrl" name="cover_photo" value="<%- group.COVER_PHOTO%>" />
+                                    <br>
+                                    <img src="<%- group.COVER_PHOTO%>" id="coverPhotoPreview" alt="cover_photo"
+                                        style="padding-top: 20px; padding-bottom: 20px; height: 250px; width: 400px" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal (Add Event modal) -->
+<div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addEventModalLabel">Edit Group Info</h5>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs nav-fill mb-3" id="ex1" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="ex2-tab-1" data-bs-toggle="tab" href="#ex2-tabs-1" role="tab"
+                            aria-controls="ex2-tabs-1" aria-selected="true" style="font-size: 16px;">Co-Curricular</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-2" data-bs-toggle="tab" href="#ex2-tabs-2" role="tab" aria-controls="ex2-tabs-2"
+                            aria-selected="false" style="font-size: 16px;">Reunion</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ex2-tab-3" data-bs-toggle="tab" href="#ex2-tabs-3" role="tab" aria-controls="ex2-tabs-3"
+                            aria-selected="false" style="font-size: 16px;">Seminar</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="ex2-content">
+                    <div class="tab-pane fade show active" id="ex2-tabs-1" role="tabpanel" aria-labelledby="ex2-tab-1">
+                        <form method="post" action="/api/co_curricular/<%- group.GROUP_ID%>">
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_name" class="form-label">Event Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="event_name" name="event_name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_date" class="form-label">Event Date</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="event_date" name="event_date" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="description" class="form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" name="description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="platform" class="form-label">Platform</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="platform" name="platform">
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="fees" class="form-label">Fees</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="fees" name="fees" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="available_for" class="form-label">Available For</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="available_for" name="available_for" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="co-curricular-longitude" name="longitude">
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="co-curricular-latitude" name="latitude">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="co-curricular-map"></div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <div class="image">
+                                        <div class="imgprev" style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                            <input accept="image/*" type="file" name="fileImage" id="coCurricularPhoto"
+                                                style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                            <input type="hidden" id="coCurricularPhotoUrl" name="cover_photo"
+                                                value="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15" />
+                                            <br>
+                                            <img src="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15"
+                                                id="coCurricularPhotoPreview" alt="cover_photo"
+                                                style="padding-top: 20px; padding-bottom: 20px; width: 400px" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2" style="margin-left: 160px;">Add Event</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-2" role="tabpanel" aria-labelledby="ex2-tab-2">
+                        <form method="post" action="/api/reunion/<%- group.GROUP_ID%>">
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_name" class="form-label">Event Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="event_name" name="event_name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_date" class="form-label">Event Date</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="event_date" name="event_date" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="description" class="form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" name="description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="platform" class="form-label">Platform</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="platform" name="platform">
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="fees" class="form-label">Fees</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="fees" name="fees" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="department" class="form-label">Department</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="department" name="department" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="batch" class="form-label">Batch</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="batch" name="batch" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="reunion-longitude" name="longitude">
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="reunion-latitude" name="latitude">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="reunion-map"></div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <div class="image">
+                                        <div class="imgprev"
+                                            style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                            <input accept="image/*" type="file" name="fileImage" id="reunionPhoto"
+                                                style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                            <input type="hidden" id="reunionPhotoUrl" name="cover_photo"
+                                                value="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15" />
+                                            <br>
+                                            <img src="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15"
+                                                id="reunionPhotoPreview" alt="cover_photo"
+                                                style="padding-top: 20px; padding-bottom: 20px; width: 400px" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2" style="margin-left: 160px;">Add Event</button>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="ex2-tabs-3" role="tabpanel" aria-labelledby="ex2-tab-3">
+                        <form method="post" action="/api/seminar/<%- group.GROUP_ID%>">
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_name" class="form-label">Event Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="event_name" name="event_name" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="event_date" class="form-label">Event Date</label>
+                                <div class="col-sm-10">
+                                    <input type="date" class="form-control" id="event_date" name="event_date" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="description" class="form-label">Description</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="description" name="description" required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="platform" class="form-label">Platform</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="platform" name="platform">
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="fees" class="form-label">Fees</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="fees" name="fees" min="0" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="available_for" class="form-label">Available For</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="available_for" name="available_for" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="topic" class="form-label">Topic</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="topic" name="topic" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <label for="special_guests" class="form-label">Special Guests</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="special_guests" name="special_guests" required>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-left: 20px;">
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="seminar-longitude" name="longitude">
+                                </div>
+                                <div class="col-sm-10">
+                                    <input type="text" hidden class="form-control" id="seminar-latitude" name="latitude">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="seminar-map"></div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-10">
+                                    <div class="image">
+                                        <div class="imgprev"
+                                            style="float: left; padding-left: 38px; font-family: Monaco, monospace; opacity: 0.9;">
+                                            <input accept="image/*" type="file" name="fileImage" id="seminarPhoto"
+                                                style="padding-top: 30px; font-family: Monaco, monospace; border: none; float: left;">
+                                            <input type="hidden" id="seminarPhotoUrl" name="cover_photo"
+                                                value="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15" />
+                                            <br>
+                                            <img src="https://firebasestorage.googleapis.com/v0/b/alumnet-dde22.appspot.com/o/images%2Fstatic%20images%2Fevent-cover.png?alt=media&token=526fb01b-73b6-4354-9470-41e9ba423c15"
+                                                id="seminarPhotoPreview" alt="cover_photo"
+                                                style="padding-top: 20px; padding-bottom: 20px; width: 400px" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary mb-2" style="margin-left: 160px;">Add Event</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal(Pending Requests) -->
+<div class="modal fade" id="pendingMembersModal" tabindex="-1" role="dialog" aria-labelledby="pendingMembersModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="pendingMembersModalLabel">Pending Requests</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">User Name</th>
+                            <th colspan="2">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingMembers">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal(All Members) -->
+<div class="modal fade" id="allMembersModal" tabindex="-1" role="dialog" aria-labelledby="allMembersModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="allMembersModalLabel">Group Members</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">User Name</th>
+                            <%if (cur_user_id===group.ADMIN_ID) {%>
+                                <th colspan="3">Action</th>
+                            <% }%>
+                        </tr>
+                    </thead>
+                    <tbody id="allMembers">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal(Group Events) -->
+<div class="modal fade" id="groupEventsModal" tabindex="-1" role="dialog" aria-labelledby="groupEventsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="groupEventsModalLabel">Group Events</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-light">
+                    <thead>
+                        <tr>
+                            <th scope="col">Event Name</th>
+                            <th scope="col">Event Type</th>
+                            <th scope="col">Event Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupEvents">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    // render the image file in image view
+    //group cover photo
+    const imageInputField = document.getElementById("inputCoverPhoto")
+    const preview = document.getElementById("coverPhotoPreview")
+    const logUrlInputField = document.querySelector("#coverPhotoUrl")
+    imageInputField.addEventListener("change", function () {
+            //console.log("image selected for logo")
+            if (this.files && this.files[0]) {
+                uploadToFirebase(this.files[0], logUrlInputField, function (imageUrl) {
+                    //console.log("adding image url to src")
+                    preview.setAttribute('src', imageUrl);
+                });
+            }
+        });
+    
+    //co-curricular cover photo
+    const imageInputFieldCoCur = document.getElementById("coCurricularPhoto")
+    const previewCoCur = document.getElementById("coCurricularPhotoPreview")
+    const logUrlInputFieldCoCur = document.querySelector("#coCurricularPhotoUrl")
+    imageInputFieldCoCur.addEventListener("change", function () {
+            //console.log("image selected for logo")
+            if (this.files && this.files[0]) {
+                uploadToFirebase(this.files[0], logUrlInputFieldCoCur, function (imageUrl) {
+                    //console.log("adding image url to src")
+                    previewCoCur.setAttribute('src', imageUrl);
+                });
+            }
+        });
+
+    //reunion cover photo
+    const imageInputFieldReunion = document.getElementById("reunionPhoto")
+    const previewReunion = document.getElementById("reunionPhotoPreview")
+    const logUrlInputFieldReunion = document.querySelector("#reunionPhotoUrl")
+    imageInputFieldReunion.addEventListener("change", function () {
+        //console.log("image selected for logo")
+        if (this.files && this.files[0]) {
+            uploadToFirebase(this.files[0], logUrlInputFieldReunion, function (imageUrl) {
+                //console.log("adding image url to src")
+                previewReunion.setAttribute('src', imageUrl);
+            });
+        }
+    });
+
+    //reunion cover photo
+    const imageInputFieldSeminar = document.getElementById("seminarPhoto")
+    const previewSeminar = document.getElementById("seminarPhotoPreview")
+    const logUrlInputFieldSeminar = document.querySelector("#seminarPhotoUrl")
+    imageInputFieldSeminar.addEventListener("change", function () {
+        //console.log("image selected for logo")
+        if (this.files && this.files[0]) {
+            uploadToFirebase(this.files[0], logUrlInputFieldSeminar, function (imageUrl) {
+                //console.log("adding image url to src")
+                previewSeminar.setAttribute('src', imageUrl);
+            });
+        }
+    });
+    function uploadToFirebase(file, logUrlInputField, onUploadSuccess) {
+            const fileName = file.name;
+            // Points to the root reference
+            const storageRef = firebase.storage().ref();
+            // Points to 'images'
+            const imagesStorageRef = storageRef.child('images');
+            // space ref where image will be stored
+            const currentDate = new Date().getTime();
+            const spaceRef = imagesStorageRef.child(currentDate + "-" + fileName);
+            const uploadTask = spaceRef.put(file)
+                .then(function (snapshot) {
+                    //console.info("image uploaded in firebase");
+                    // Handle successful uploads on complete
+                    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        //console.log('File available at', downloadURL);
+                        logUrlInputField.setAttribute("value", downloadURL);
+                        onUploadSuccess(downloadURL);
+                    });
+                })
+        }
+</script>
+
+<script>
+    // Get element references
+    //co curricular
+    var co_curricular_latitude = document.getElementById('co-curricular-latitude');
+    var co_curricular_longitude = document.getElementById('co-curricular-longitude');
+
+    // Initialize locationPicker plugin
+    var co_curricular_lp = new locationPicker('co-curricular-map', {
+        setCurrentPosition: true, // You can omit this, defaults to true
+    }, {
+        zoom: 15 // You can set any google map options here, zoom defaults to 15
+    });
+
+    // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+    google.maps.event.addListener(co_curricular_lp.map, 'idle', function (event) {
+        // Get current location and show it in HTML
+        var location = co_curricular_lp.getMarkerPosition();
+        co_curricular_latitude.value = location.lat;
+        co_curricular_longitude.value = location.lng;
+    });
+
+    //reunion
+    var reunion_latitude = document.getElementById('reunion-latitude');
+    var reunion_longitude = document.getElementById('reunion-longitude');
+
+    // Initialize locationPicker plugin
+    var reunion_lp = new locationPicker('reunion-map', {
+        setCurrentPosition: true, // You can omit this, defaults to true
+    }, {
+        zoom: 15 // You can set any google map options here, zoom defaults to 15
+    });
+
+    // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+    google.maps.event.addListener(reunion_lp.map, 'idle', function (event) {
+        // Get current location and show it in HTML
+        var location = reunion_lp.getMarkerPosition();
+        reunion_latitude.value = location.lat;
+        reunion_longitude.value = location.lng;
+    });
+
+    //seminar
+    var seminar_latitude = document.getElementById('seminar-latitude');
+    var seminar_longitude = document.getElementById('seminar-longitude');
+
+    // Initialize locationPicker plugin
+    var seminar_lp = new locationPicker('seminar-map', {
+        setCurrentPosition: true, // You can omit this, defaults to true
+    }, {
+        zoom: 15 // You can set any google map options here, zoom defaults to 15
+    });
+
+    // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+    google.maps.event.addListener(seminar_lp.map, 'idle', function (event) {
+        // Get current location and show it in HTML
+        var location = seminar_lp.getMarkerPosition();
+        seminar_latitude.value = location.lat;
+        seminar_longitude.value = location.lng;
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        if(cur_user_id == group.ADMIN_ID)
+        {
+            $.ajax({
+                type: "GET",
+                url: `/api/group_member/pending/group/${group.GROUP_ID}`,
+                success: function (result) {
+                    $.map(result, function (data, i) {
+                        $(`#pendingMembers`).append(
+                            `<tr style="height=50px;">
+                            <td>
+                                <a href="/api/user/${data.USER_ID}" style="text-decoration: none; color: black;">${data.NAME}</a></td>
+                            <td>
+                                <div class="d-flex justify-content-start">
+                                    <form method="post" action="/api/group_member/pending/${data.USER_ID}/accept/${group.GROUP_ID}">
+                                        <button type="submit" class="btn btn-primary mb-2" style="margin-right: 10px;" style="width: 100px;">Accept</button>
+                                    </form>
+                                    <form method="post" action="/api/group_member/pending/${data.USER_ID}/reject/${group.GROUP_ID}">
+                                        <button type="submit" class="btn btn-primary mb-2" style="width: 80px">Reject</button>
+                                    </form>
+                                </div>
+                            <td>
+                        </tr>`)
+                    })
+                }
+            })
+        }
+        
+
+            $.ajax({
+            type: "GET",
+            url: `/api/group_member/group/${group.GROUP_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    if(cur_user_id === group.ADMIN_ID) {
+                        if(cur_user_id === data.USER_ID) {
+                            $(`#allMembers`).append(
+                                `<tr style="height=50px;">
+                                <td>
+                                    <a href="/api/user/" style="text-decoration: none; color: black;">${data.NAME} (You)</a>
+                                <td>
+                                    <div class="d-flex justify-content-start">
+                                        <button type="submit" class="btn btn-primary mb-2" style="width: 150px" disabled>Current Admin</button>
+                                    </div>
+                                <td>
+                            </tr>`)
+                        }
+                        else{
+                            $(`#allMembers`).append(
+                                `<tr style="height=50px;">
+                                <td>
+                                    <a href="/api/user/${data.USER_ID}" style="text-decoration: none; color: black;">${data.NAME}</a>
+                                <td>
+                                    <div class="d-flex justify-content-start">
+                                        <form method="post" action="/api/group/updateAdmin/${group.GROUP_ID}">
+                                            <input name="admin_id" value="${data.USER_ID}" hidden>
+                                            <button type="submit" class="btn btn-primary mb-2" style="margin-right: 10px">Make Admin</button>
+                                        </form>
+                                        <form method="post" action="/api/group_member/remove/group/${group.GROUP_ID}/user/${data.USER_ID}">
+                                            <input name="user_id" value="${data.USER_ID}" hidden>
+                                            <button type="submit" class="btn btn-primary mb-2" style="width: 120px" >Remove</button>
+                                        </form>
+                                    </div>
+                                <td>
+                            </tr>`)
+                        }
+                    }
+                    else {
+                        if (cur_user_id === data.USER_ID) {
+                            $(`#allMembers`).append(
+                                `<tr style="height=50px;">
+                                    <td>
+                                        <a href="/api/user/" style="text-decoration: none; color: black;">${data.NAME} (You)</a>
+                                </tr>`)
+                        }
+                        else if(data.USER_ID === group.ADMIN_ID) {
+                            $(`#allMembers`).append(
+                                `<tr style="height=50px;">
+                                    <td>
+                                        <a href="/api/user/${data.USER_ID}" style="text-decoration: none; color: black;">${data.NAME} (Admin)</a>
+                                </tr>`)
+                        }
+                        else{
+                            $(`#allMembers`).append(
+                                `<tr style="height=50px;">
+                                    <td>
+                                        <a href="/api/user/${data.USER_ID}" style="text-decoration: none; color: black;">${data.NAME}</a>
+                                </tr>`)
+                        }
+                    }
+                })
+            }
+        })
+
+        $.ajax({
+            type: "GET",
+            url: `/api/event/${group.GROUP_ID}`,
+            success: function (result) {
+                $.map(result, function (data, i) {
+                    let date = data.EVENT_DATE.split('T');
+                    $(`#groupEvents`).append(
+                        `<tr style="height=50px;">
+                        <td>
+                            <a href="/api/${data.EVENT_TYPE}/${data.EVENT_ID}" style="color: black;">${data.EVENT_NAME}</a></td>
+                        <td>
+                            ${data.EVENT_TYPE}
+                        </td>
+                        <td>
+                            ${date[0]}
+                        </td>
+                    </tr>`)   
+                })
+            }
+        })
+
+    });
+</script>

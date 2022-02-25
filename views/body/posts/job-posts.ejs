@@ -1,0 +1,757 @@
+<style>
+    #map {
+        margin-left: 50px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 300px;
+    }
+    #map2 {
+        margin-left: 40px;
+        margin-bottom: 20px;
+        width: 80%;
+        height: 320px;
+    }
+    legend {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 32px;
+        font-weight: bold;
+        color: brown;
+    }
+    li{
+        margin-bottom: 5px;
+    }
+    button {
+        margin-right: 10px;
+    }
+
+    .search_btn{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    margin-bottom: 5px;
+    
+    }
+    .search_btn:hover{
+    color: #940031;
+    background-color: white;
+    }
+    .btn-primary{
+    color: rgb(255, 255, 255);
+    background-color: #940031;
+    
+    }
+    .btn-primary:hover{
+    color: #940031;
+    background-color: white;
+    }
+    input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    }
+
+    select:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    }
+    .username{
+        text-decoration: none;
+    }
+    .username:hover{
+        text-decoration: underline black;
+    }
+    .slidecontainer {
+    width: 100%;
+    }
+    .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    color: #000000;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    }
+    .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #000000;
+    cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #000000;
+    cursor: pointer;
+    }
+    
+    input[type='range'] {
+      overflow: hidden;
+      width: 100px;
+      height: 10px;
+      -webkit-appearance: none;
+      background-color: #f5f5f5;
+    }
+    
+    input[type='range']::-webkit-slider-runnable-track {
+      height: 10px;
+      color: #000000;
+      margin-top: -1px;
+    }
+    
+    input[type='range']::-webkit-slider-thumb {
+      width: 10px;
+      -webkit-appearance: none;
+      height: 10px;
+      cursor: ew-resize;
+      background: #000000;
+      box-shadow: -80px 0 0 80px #000000;
+    }
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+  background-color: #000000; 
+}
+input[type="range"]::-moz-range-track {  
+  background-color: #f5f5f5;
+}
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+  background-color: #000000; 
+}
+input[type="range"]::-ms-fill-upper {  
+  background-color: #f5f5f5;
+}
+
+    .timeline {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        position: relative
+    }
+
+    .timeline:before {
+        content: '';
+        position: absolute;
+        top: 5px;
+        bottom: 5px;
+        width: 5px;
+        background: #2d353c;
+        left: 20%;
+        margin-left: -2.5px
+    }
+
+    .timeline>li {
+        position: relative;
+        min-height: 50px;
+        padding: 20px 0
+    }
+
+    .timeline .timeline-time {
+        position: absolute;
+        left: 0;
+        width: 18%;
+        text-align: right;
+        top: 30px
+    }
+
+    .timeline .timeline-time .date,
+    .timeline .timeline-time .time {
+        display: block;
+        font-weight: 600
+    }
+
+    .timeline .timeline-time .date {
+        line-height: 16px;
+        font-size: 12px
+    }
+
+    .timeline .timeline-time .time {
+        line-height: 24px;
+        font-size: 20px;
+        color: #242a30
+    }
+
+    .timeline .timeline-icon {
+        left: 15%;
+        position: absolute;
+        width: 10%;
+        text-align: center;
+        top: 40px
+    }
+
+    .timeline .timeline-icon a {
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 20px;
+        background: #d9e0e7;
+        line-height: 10px;
+        color: #fff;
+        font-size: 14px;
+        border: 5px solid #2d353c;
+        transition: border-color .2s linear
+    }
+
+    .timeline .timeline-body {
+        margin-left: 23%;
+        margin-right: 17%;
+        background: #fff;
+        position: relative;
+        padding: 20px 25px;
+        border-radius: 6px
+    }
+
+    .timeline .timeline-body:before {
+        content: '';
+        display: block;
+        position: absolute;
+        border: 10px solid transparent;
+        border-right-color: #fff;
+        left: -20px;
+        top: 20px
+    }
+
+    .timeline .timeline-body>div+div {
+        margin-top: 15px
+    }
+
+    .timeline .timeline-body>div+div:last-child {
+        margin-bottom: -20px;
+        padding-bottom: 20px;
+        border-radius: 0 0 6px 6px
+    }
+
+    .timeline-header {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e7eb;
+        line-height: 30px
+    }
+
+    .timeline-header .userimage {
+        float: left;
+        width: 34px;
+        height: 34px;
+        border-radius: 40px;
+        overflow: hidden;
+        margin: -2px 10px -2px 0
+    }
+
+    .timeline-header .username {
+        font-size: 16px;
+        font-weight: 600
+    }
+
+    .timeline-header .username,
+    .timeline-header .username a {
+        color: #2d353c
+    }
+
+    .timeline img {
+        max-width: 100%;
+        display: block
+    }
+
+    .timeline-content {
+        letter-spacing: .25px;
+        line-height: 18px;
+        font-size: 13px
+    }
+
+    .timeline-content:after,
+    .timeline-content:before {
+        content: '';
+        display: table;
+        clear: both
+    }
+
+    .timeline-title {
+        margin-top: 0
+    }
+
+    .timeline-footer {
+        background: #fff;
+        border-top: 1px solid #e2e7ec;
+        padding-top: 15px
+    }
+
+    .timeline-footer a:not(.btn) {
+        color: #575d63
+    }
+
+    .timeline-footer a:not(.btn):focus,
+    .timeline-footer a:not(.btn):hover {
+        color: #2d353c
+    }
+
+    .timeline-likes {
+        color: #6d767f;
+        font-weight: 600;
+        font-size: 12px
+    }
+
+    .timeline-likes .stats-right {
+        float: right
+    }
+
+    .timeline-likes .stats-total {
+        display: inline-block;
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-icon {
+        float: left;
+        margin-right: 5px;
+        font-size: 9px
+    }
+
+    .timeline-likes .stats-icon+.stats-icon {
+        margin-left: -2px
+    }
+
+    .timeline-likes .stats-text {
+        line-height: 20px
+    }
+
+    .timeline-likes .stats-text+.stats-text {
+        margin-left: 15px
+    }
+
+    .timeline-comment-box {
+        background: #f2f3f4;
+        margin-left: -25px;
+        margin-right: -25px;
+        padding: 20px 25px
+    }
+
+    .timeline-comment-box .user {
+        float: left;
+        width: 34px;
+        height: 34px;
+        overflow: hidden;
+        border-radius: 30px
+    }
+
+    .timeline-comment-box .user img {
+        max-width: 100%;
+        max-height: 100%
+    }
+
+    .timeline-comment-box .user+.input {
+        margin-left: 44px
+    }
+</style>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <h2
+                    style="margin-left: 300px; margin-bottom: 30px; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">
+                    <%= title%>
+                </h2>
+                <div id="content" class="content col-8">
+                    <%if (job_posts.length===0) {%>
+                        <h5 style="margin-left: 300px; color: gray; font-style: italic;">No job posts to show...</h3>
+                    <% }%>
+                    <!-- begin #profile-post tab -->
+                    <div class="tab-pane fade active show" id="profile-post">
+                        <!-- begin timeline -->
+                        <ul class="timeline">
+                            <% for (job_post of job_posts) { %>
+                                <li>
+                                    <!-- begin timeline-time -->
+                                    <div class="timeline-time">
+                                        <span class="date">
+                                            <%= job_post.TIMESTAMP %>
+                                        </span>
+                                    </div>
+                                    <!-- end timeline-time -->
+                                    <!-- begin timeline-icon -->
+                                    <div class="timeline-icon">
+                                        <a href="javascript:;">&nbsp;</a>
+                                    </div>
+                                    <!-- end timeline-icon -->
+                                    <!-- begin timeline-body -->
+                                    <div class="timeline-body">
+                                        <div class="timeline-header">
+                                            <a href="/api/user/<%- job_post.USER_ID%>" class="username"><span class="username">
+                                                    <%= job_post.USER_NAME%>
+                                                </span></a>
+                                            <!-- <span class="pull-right text-muted">Designation: <%= job_post.DESIGNATION %></span> -->
+                                        </div>
+                                        <div class="timeline-content">
+                                            <h4 class="template-title"><a href="/api/job_post/<%- job_post.POST_ID %>" style="color: #242a30; text-decoration:none;"><%= job_post.DESIGNATION %></a></h4>
+                                            <h6>Company Name: <%= job_post.COMPANY_NAME%></h6>
+                                            <ul style="font-size: 16px;">
+                                                <li>Requirements: <%=job_post.REQUIREMENTS%></li>
+                                                <li>Job Type: <%=job_post.JOB_TYPE%></li>
+                                                <li>Remote: <%=job_post.REMOTE%></li>
+                                                <li>Expected Salary: <%=job_post.EXPECTED_SALARY%></li>
+                                                <li>No. of Vacany: <%=job_post.VACANCY%></li>
+                                                <li>Contact Email: <%=job_post.EMAIL%></li>
+                                                <% if (job_post.PHONE_NO) {%>
+                                                <li>Contact Phone No.: <%=job_post.PHONE_NO%></li>
+                                                <%}%>
+                                                <li><a href="https://maps.google.com/maps?q=<%- job_post.LATITUDE%>,<%- job_post.LONGITUDE%>" style="color: #000000;">
+                                                    See Location on Map <i class="fas fa-map-marker-alt fa-2x" style="color:#940031;"></i>
+                                                </a></li>
+                                            </ul>
+                                        </div>
+                                        <% if (cur_user_id===job_post.USER_ID) { %>
+                                            <div class="d-flex justify-content-start">
+                                                <!-- Button trigger modal -->
+                                                <button style="margin-right: 5px;" type="button"
+                                                    class="btn btn-primary mb-2" data-bs-toggle="modal"
+                                                    data-bs-target="#editJobPostModal<%- job_post.POST_ID %>">
+                                                    <i class="fas fa-pen"></i></button>
+                                                <form method="post" action="/api/job_post/delete/<%- job_post.POST_ID %>">
+                                                    <button type="submit" class="btn btn-primary mb-2"
+                                                        onclick="return confirm('Are you sure you want to delete this post?');"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </div>
+                                            <%}%>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="editJobPostModal<%- job_post.POST_ID %>" tabindex="-1" role="dialog"
+                                                aria-labelledby="editJobPostModalLabel<%- job_post.POST_ID %>" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="editJobPostModalLabel<%- job_post.POST_ID %>">Edit Job Post</h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form method="post" action="/api/job_post/update/<%- job_post.POST_ID %>">
+                                                                <div class="form-group row">
+                                                                    <label for="designation" class="form-label">Designation</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="designation" name="designation" value="<%= job_post.DESIGNATION%>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="company_name" class="form-label">Company Name</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="company_name" name="company_name" value="<%= job_post.COMPANY_NAME%>"required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="job_type" class="form-label">Job Type</label>
+                                                                    <select class="form-select" aria-label="Default select example" name="job_type">
+                                                                        <option selected value="<%= job_post.JOB_TYPE%>"><%= job_post.JOB_TYPE%></option>
+                                                                        <option value="Part-Time">Part-Time</option>
+                                                                        <option value="Full-Time">Full-Time</option>
+                                                                        <option value="Self-Employed">Self-Employed</option>
+                                                                        <option value="Internship">Internship</option>
+                                                                        <option value="Freelance">Freelance</option>
+                                                                        <option value="Contract">Contract</option>
+                                                                        <option value="Seasonal">Seasonal</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="remote" class="form-label">Remote</label>
+                                                                    <select class="form-select" aria-label="Default select example" name="remote">
+                                                                        <option selected value="<%= job_post.REMOTE%>"><%= job_post.REMOTE%></option>
+                                                                        <option value="Yes">Yes</option>
+                                                                        <option value="No">No</option>
+                                                                    </select>
+                                                                </div>
+                                                                
+                                                                <div class="form-group row">
+                                                                    <label for="requirements" class="form-label">Requirements</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="text" class="form-control" id="requirements" name="requirements" value="<%= job_post.REQUIREMENTS%>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="email" class="form-label">Contact Email</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="email" class="form-control" id="email" name="email" value="<%= job_post.EMAIL%>" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="phone_no" class="form-label">Contact Phone No.</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="number" class="form-control" id="phone_no" name="phone_no" value="<%= job_post.PHONE_NO%>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="vacancy" class="form-label">Vacancy</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="number" class="form-control" id="vacancy" name="vacancy" value="<%= job_post.VACANCY%>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label for="expected_salary" class="form-label">Expected Salary</label>
+                                                                    <div class="col-sm-10">
+                                                                        <input type="number" class="form-control" id="expected_salary" name="expected_salary" value="<%= job_post.EXPECTED_SALARY%>">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <input type="text" name="latitude" value="<%= job_post.LATITUDE%>" hidden>
+                                                                    <input type="text" name="longitude" value="<%= job_post.LONGITUDE%>" hidden>
+                                                                </div>
+                                                                <button type="submit" class="btn btn-primary mb-2">Update Blog</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="timeline-footer">
+                                                <div class="d-flex justify-content">
+                                                <%if (job_post.IS_LIKED==='NO' ) {%>
+                                                    <form id="like<%- job_post.POST_ID %>"
+                                                        action="/api/post/like/<%- job_post.POST_ID %>" method="post">
+                                                        <input name="type" value="job_post" hidden>
+                                                        <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                                            onclick="document.getElementById('like<%- job_post.POST_ID %>').submit();"><i
+                                                                class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i>
+                                                            Like </a>
+                                                        <%= job_post.LIKE_COUNT%>
+                                                    </form>
+                                                    <%} else {%>
+                                                        <form id="unlike<%- job_post.POST_ID %>"
+                                                            action="/api/post/unlike/<%- job_post.POST_ID %>" method="post">
+                                                            <input name="type" value="job_post" hidden>
+                                                            <a href="javascript:;" class="m-r-15 text-inverse-lighter"
+                                                                onclick="document.getElementById('unlike<%- job_post.POST_ID %>').submit();"><i
+                                                                    class="fa fa-thumbs-up fa-fw fa-lg m-r-3"
+                                                                    style="color: rgb(26, 26, 224);"></i>
+                                                                Like </a>
+                                                        </form>
+                                                        <%= job_post.LIKE_COUNT%>
+                                                            <%}%>
+                                                                <a href="/api/job_post/<%- job_post.POST_ID%>"
+                                                                    class="m-r-15 text-inverse-lighter"><i
+                                                                        class="fa fa-comments fa-fw fa-lg m-r-3"></i>
+                                                                    Comment </a>
+                                                                <%= job_post.COMMENT_COUNT%>
+                                                </div>
+                                            </div>
+                                            <div class="timeline-comment-box">
+                                                <div class="input">
+                                                    <form action="/api/post/comment/<%- job_post.POST_ID %>" method="post">
+                                                        <input name="type" value="job_post" hidden>
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control rounded-corner"
+                                                                name="body" placeholder="Write a comment...">
+                                                            <span class="input-group-btn p-l-10">
+                                                                <button class="btn btn-primary f-s-12 rounded-corner"
+                                                                    type="submit">Comment</button>
+                                                            </span>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- end timeline-body -->
+                                </li>
+                                <% }%>
+                        </ul>
+                        <!-- end timeline -->
+                    </div>
+                    <!-- end #profile-post tab -->
+                </div>
+                <div class="content col-3 text-right" >
+                    <div>
+                        <!-- Button trigger modal for search -->
+                        <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#searchJobPostModal">
+                            Search Job Post <i class="fas fa-search"></i></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="searchJobPostModal" tabindex="-1" role="dialog"
+                            aria-labelledby="searchJobPostModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="searchJobPostModalLabel">Search for Job Post</h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/api/job_post/search" method="get">
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <input type="text" class="form-control" placeholder="Enter search string" name="str" style="width: 80%; margin-left: 20px;">
+                                                </div>
+                                                <div class="col">
+                                                    <select class="form-control" aria-label="Default select example" name="remote" style="width: 80%; margin-left: 20px;">
+                                                        <option value="" disabled selected hidden>Remote </option>
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No">No</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row" style="margin-top: 20px; margin-bottom: 20px">
+                                                <div class="col">
+                                                    <label for="salary_lower_bound" class="form-label">Lowest Salary</label>
+                                                    <input type="range" min="0" max="100000" value="0" name="salary_lower_bound" 
+                                                        id="salary_lower_bound">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="salary_upper_bound" class="form-label">Highest Salary</label>
+                                                    <input type="range" min="0" max="100000" value="100000" name="salary_upper_bound" 
+                                                        id="salary_upper_bound">
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="row" style="padding-left: 40px;">
+                                                <div class="col-4">
+                                                    <input type="text" placeholder="Enter search latitude" name="latitude" id="search-latitude"
+                                                        hidden>
+                                                    <input type="text" placeholder="Enter search longitude" name="longitude" id="search-longitude"
+                                                        hidden>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div id="map"></div>
+                                            </div>
+                                            <div class="row" style="padding-left: 150px; padding-bottom: 20px;">
+                                                <button type="submit" class="btn btn-primary search_btn" style="width: 200px;">Search</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#addJobPostModal">
+                        Add New Job Post</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="addJobPostModal" tabindex="-1" role="dialog" aria-labelledby="addJobPostModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addJobPostModalLabel">Add New Job Post</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form method="post" action="/api/job_post">
+                                        <div class="form-group row">
+                                            <label for="designation" class="form-label" style="text-align: left;">Designation</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="designation" name="designation" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="company_name" class="form-label" style="text-align: left;">Company Name</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="company_name" name="company_name" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="job_type" class="form-label" style="text-align: left;">Job Type</label>
+                                            <select class="form-select" aria-label="Default select example" name="job_type"
+                                                style="width: 80%; margin-left:10px">
+                                                <option selected value="Part-Time">Part-Time</option>
+                                                <option value="Full-Time">Full-Time</option>
+                                                <option value="Self-Employed">Self-Employed</option>
+                                                <option value="Internship">Internship</option>
+                                                <option value="Freelance">Freelance</option>
+                                                <option value="Contract">Contract</option>
+                                                <option value="Seasonal">Seasonal</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="remote" class="form-label" style="text-align: left;">Remote</label>
+                                            <select class="form-select" aria-label="Default select example" name="remote"
+                                                style="width: 80%; margin-left:10px">
+                                                <option selected value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="requirements" class="form-label" style="text-align: left;">Requirements</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="requirements" name="requirements" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="email" class="form-label" style="text-align: left;">Contact Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="email" class="form-control" id="email" name="email" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="phone_no" class="form-label" style="text-align: left;">Contact Phone No.</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="phone_no" name="phone_no">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="vacancy" class="form-label" style="text-align: left;">Vacancy</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="vacancy" name="vacancy">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="expected_salary" class="form-label" style="text-align: left;">Expected Salary</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="expected_salary" name="expected_salary">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-10">
+                                                <input type="text" hidden class="form-control" id="add-longitude" name="longitude">
+                                            </div>
+                                            <div class="col-sm-10">
+                                                <input type="text" hidden class="form-control" id="add-latitude" name="latitude">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div id="map2"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mb-2" >Post Job</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    // Get element references
+    var confirmBtn = document.getElementById('confirmPosition');
+    var onClickPositionView = document.getElementById('onClickPositionView');
+    var onIdlePositionView = document.getElementById('onIdlePositionView');
+    var latitude = document.getElementById('search-latitude');
+    var longitude = document.getElementById('search-longitude');
+
+    // Initialize locationPicker plugin
+    var lp = new locationPicker('map', {
+        setCurrentPosition: true, // You can omit this, defaults to true
+    }, {
+        zoom: 15 // You can set any google map options here, zoom defaults to 15
+    });
+
+    // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+    google.maps.event.addListener(lp.map, 'idle', function (event) {
+        // Get current location and show it in HTML
+        var location = lp.getMarkerPosition();
+        latitude.value = location.lat;
+        longitude.value = location.lng;
+    });
+
+    var latitude2 = document.getElementById('add-latitude');
+    var longitude2 = document.getElementById('add-longitude');
+    var lp2 = new locationPicker('map2', {
+            setCurrentPosition: true, // You can omit this, defaults to true
+        }, {
+            zoom: 15 // You can set any google map options here, zoom defaults to 15
+        });
+
+        // Listen to map idle event, listening to idle event more accurate than listening to ondrag event
+        google.maps.event.addListener(lp2.map, 'idle', function (event) {
+            // Get current location and show it in HTML
+            var location2 = lp2.getMarkerPosition();
+            latitude2.value = location2.lat;
+            longitude2.value = location2.lng;
+        });
+</script>

@@ -247,6 +247,3 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
     [http://rifatshahriyar.github.io/](http://rifatshahriyar.github.io/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>

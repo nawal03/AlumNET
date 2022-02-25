@@ -162,7 +162,22 @@ FIREBASE_APP_ID= firebase_app_id
 FIREBASE_MEASUREMENT_ID= firebase_measurement_id
 
 ```
-To get FIREBASE variables sign up [here](https://firebase.google.com/)
+To get firebase configurations sign up [here](https://firebase.google.com/) > add project > go to project settings > get firebase configuration from the JSON object 'firebaseConfig'
+
+Then , go to storage > get started > go to rules > go to edit ruled > enable read and write by replacing the existing text by this
+
+```sh
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if true;
+    }
+  }
+}
+
+```
+and your firebase configuration is done. Now all the photos from the webapp will be stored here.
 
 #### Run the project
 

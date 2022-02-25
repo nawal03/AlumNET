@@ -107,7 +107,7 @@ Make sure you have node and oracle installed in your device.
 
 4. Find file dump.sql in `sql/SQL_DUMP.sql`
 
-5. Replace all "TFUSER4" with your username in `sql/SQL_DUMP.sql`
+5. Replace all "TFUSER4" with "c##alumnet" in `sql/SQL_DUMP.sql`
 
 6. Head over to your favourite database GUI and connect AlumNET with that
 

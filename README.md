@@ -115,7 +115,7 @@ Make sure you have node and oracle installed in your device.
 
 6. Import data from sql file depending upon the GUI. 
 
-7. The DUMP should work i hope 😩
+7. The DUMP should work i hope
 
 8. If no errors are shown we are good to go!
 
@@ -126,23 +126,43 @@ Make sure you have node and oracle installed in your device.
 create a new file `.env` in the root directory. And the file should have the followings
 
 ```sh
-DB_USER= YOUR_DB_USER 
-DB_PASS= YOUR_DB_PASS
-DB_CONNECTSTRING=localhost/orcl
-PORT=YOUR_FABOURITE_PORT
-APP_SECRET=YOUR_DARKEST_SECRET
+PORT= port
+
+DB_USER= db_user
+DB_PASSWORD= db_passsword
+DB_CONNECTSTRING= db_connect_string
+JWT_TOKEN_HELPER= jwt_token_helper
+
+FIREBASE_APIKEY= firebase_apikey
+FIREBASE_AUTH_DOMAIN= firebase_auth_domain
+FIREBASE_PROJECT_ID= firebase_project_id
+FIREBASE_STORAGE_BUCKET= firebase_storage_bucket
+FIREBASE_MEESAGING_SENDER_ID= firebase_messaging_sender_id
+FIREBASE_APP_ID= firebase_app_id
+FIREBASE_MEASUREMENT_ID= firebase_measurement_id
+
 ```
 
 If you followed the above then the `.env` should look like this
 
 ```sh
-DB_USER= c##squirrel 
-DB_PASS= password
-DB_CONNECTSTRING=localhost/orcl
 PORT= 3000
-APP_SECRET=iLoveSquirrel
-```
 
+DB_USER= c##alumnet
+DB_PASSWORD= passsword
+DB_CONNECTSTRING= localhost/orcl
+JWT_TOKEN_HELPER= allHailBUET
+
+FIREBASE_APIKEY= firebase_apikey
+FIREBASE_AUTH_DOMAIN= firebase_auth_domain
+FIREBASE_PROJECT_ID= firebase_project_id
+FIREBASE_STORAGE_BUCKET= firebase_storage_bucket
+FIREBASE_MEESAGING_SENDER_ID= firebase_messaging_sender_id
+FIREBASE_APP_ID= firebase_app_id
+FIREBASE_MEASUREMENT_ID= firebase_measurement_id
+
+```
+To get FIREBASE variables sign up [here](https://firebase.google.com/)
 
 #### Run the project
 

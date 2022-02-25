@@ -45,7 +45,7 @@ create groups and events like co-curricular, reunion, seminars.
 - Nodejs
 - EJS
 - Bootstrap
-- OracleDB
+- Oracle
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-<h2 align="center">Squirrel</h3>
+<h2 align="center">AlumNET</h3>
 
 </div>
 

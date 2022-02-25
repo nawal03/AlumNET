@@ -38,7 +38,7 @@
 ## About The Project
 
 AlumNet is a social networking platform for alumni of BUET. Here, current and ex students of BUET can connect with each other, write blog, post about job opportunities, add merchandise, 
-create groups and events like co-curricular, reunion, seminars.
+create groups and events like co-curricular, reunion, seminars. They also can get notifications about relevent activities.
 
 ### Built With
 
